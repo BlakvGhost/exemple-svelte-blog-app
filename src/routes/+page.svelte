@@ -3,8 +3,5 @@
   </script>
   
   <div class="p-8">
-	<Alert>
-	  <span class="font-medium">Info alert!</span>
-	  Change a few things up and try submitting again.
-	</Alert>
+	<h1>Welcome to Svelte Blog App</h1>
   </div>
