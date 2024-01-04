@@ -5,7 +5,7 @@
 	import bgAuthImage from '$lib/images/auth-bg.jpg';
 	import { CompressOutline } from 'flowbite-svelte-icons';
 
-	const isPage = function (page: string = 'login') {
+	$: isPage = function (page: string = 'login') {
 		return $page.route.id?.includes(page);
 	};
 </script>
