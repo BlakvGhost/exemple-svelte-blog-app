@@ -1,7 +1,7 @@
 <script>
-	import '../app.pcss';
+	import '../../app.pcss';
 	import Header from './Header.svelte';
-	import './styles.css';
+	import './../styles.css';
 </script>
 
 <div class="app flex flex-col min-h-screen w-full">
