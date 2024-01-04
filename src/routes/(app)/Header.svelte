@@ -1,5 +1,5 @@
 <script>
-// @ts-nocheck
+	// @ts-nocheck
 
 	import { page } from '$app/stores';
 	import {
@@ -17,6 +17,7 @@
 		Input
 	} from 'flowbite-svelte';
 	import { CompressOutline, SearchOutline } from 'flowbite-svelte-icons';
+
 </script>
 
 <header>
