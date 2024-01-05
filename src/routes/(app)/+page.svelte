@@ -38,4 +38,9 @@
 			</div>
 		</div>
 	</div>
+	<div class="container mx-auto">
+		<div class="py-3">
+			<h1 class="text-2xl border-b py-3">Recents Posts</h1>
+		</div>
+	</div>
 </div>
