@@ -40,7 +40,12 @@
 	</div>
 	<div class="container mx-auto">
 		<div class="py-3">
-			<h1 class="text-2xl border-b py-3">Recents Posts</h1>
+			<h1 class="border-b py-3 text-2xl">Recents Posts</h1>
+		</div>
+		<div class="my-4 grid grid-cols-4 gap-4">
+			{#each Array(10) as _, index}
+				<Post type={false}></Post>
+			{/each}
 		</div>
 	</div>
 </div>
