@@ -7,7 +7,7 @@
 <div class="app flex flex-col min-h-screen w-full">
 	<Header></Header>
 
-	<main class="flex-1 flex flex-col p-2 w-full mx-auto my-0 bg-primary-900 text-white">
+	<main class="flex-1 flex flex-col w-full mx-auto my-0 bg-primary-900 text-white">
 		<slot />
 	</main>
 
