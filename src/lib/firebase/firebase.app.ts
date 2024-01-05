@@ -11,6 +11,7 @@ import {
 import { initializeApp, getApps } from 'firebase/app';
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
     apiKey: PUBLIC_FIREBASE_API_KEY,
@@ -24,12 +25,14 @@ const firebaseConfig = {
 
 let firebaseApp;
 let firebaseAnalytics;
+let firestore;
 
 if (!getApps().length) {
     firebaseApp = initializeApp(firebaseConfig);
-    firebaseAnalytics = getAnalytics(firebaseApp)
+    firestore = getFirestore(firebaseApp);
+    firebaseAnalytics = getAnalytics(firebaseApp);
 }
 
 const firebaseAuth = getAuth(firebaseApp);
 
-export { firebaseApp, firebaseAuth, firebaseAnalytics };
+export { firebaseApp, firebaseAuth, firebaseAnalytics, firestore };
