@@ -2,7 +2,7 @@
 </script>
 
 <form class="space-y-2">
-	<div class="flex items-center justify-center gap-2">
+	<div class="md:flex block items-center justify-center gap-2">
 		<div>
 			<label class="font-medium" for="first_name">First Name</label>
 			<input
@@ -31,7 +31,7 @@
 			class="w-full rounded-lg border bg-transparent px-3 py-2 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
 		/>
 	</div>
-	<div class="flex items-center justify-center gap-2">
+	<div class="md:flex block items-center justify-center gap-2">
 		<div>
 			<label for="password" class="font-medium">Password</label>
 			<input
