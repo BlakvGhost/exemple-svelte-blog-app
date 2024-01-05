@@ -45,7 +45,7 @@
 	</div>
 	<div class="my-2">
 		<form action="" method="post" class="flex py-8 flex-wrap">
-			<div class="w-2/4">
+			<div class="w-full md:w-2/4 p-3 md:p-0">
 				<div class="mb-6">
 					<Label for="title_id" class="mb-2 block text-gray-300">Title</Label>
 					<Input id="title_id" placeholder="Title" />
@@ -59,7 +59,7 @@
 					<Fileupload />
 				</div>
 			</div>
-			<div class="w-2/4 ps-5">
+			<div class="w-full md:w-2/4 p-3 md:ps-5">
 				<label for="content" class="mb-2 block text-gray-300">Content</label>
 				<textarea name="" id="content" cols="30" rows="10"></textarea>
 			</div>
