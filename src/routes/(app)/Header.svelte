@@ -67,7 +67,7 @@
 			>
 			<NavLi href="/posts">Blog</NavLi>
 			<NavLi href="/posts/new">Add Post</NavLi>
-			<NavLi href="/contact">Contact</NavLi>
+			<NavLi href="/auth/login">Contact</NavLi>
 		</NavUl>
 	</Navbar>
 </header>
