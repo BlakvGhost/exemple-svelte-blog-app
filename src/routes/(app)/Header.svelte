@@ -17,7 +17,6 @@
 		Input
 	} from 'flowbite-svelte';
 	import { CompressOutline, SearchOutline } from 'flowbite-svelte-icons';
-
 </script>
 
 <header>

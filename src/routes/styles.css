@@ -1,0 +1,25 @@
+:root {
+    --pr-color: #475569;
+    --sc-width: 8px;
+}
+
+::-webkit-scrollbar {
+    width: var(--sc-width);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--pr-color);
+    border-radius: var(--sc-width);
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+::-moz-scrollbar-thumb {
+    background-color: var(--pr-color);
+}
+
+::-moz-scrollbar-track {
+    background-color: #f0f0f0;
+}
