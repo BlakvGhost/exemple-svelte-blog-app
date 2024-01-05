@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	// @ts-nocheck
 
 	import { page } from '$app/stores';
@@ -17,9 +17,11 @@
 		Input
 	} from 'flowbite-svelte';
 	import { CompressOutline, SearchOutline } from 'flowbite-svelte-icons';
+
+	export let style;
 </script>
 
-<header>
+<header class={style}>
 	<Navbar let:hidden let:toggle color="primary-900">
 		<NavBrand href="/">
 			<CompressOutline class="mx-2" />

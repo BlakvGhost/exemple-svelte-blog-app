@@ -25,3 +25,19 @@
   ::-moz-scrollbar-track {
       background-color: #f0f0f0;
   }
+
+  .fadeInDownBox {
+      animation: fadeInDown 1s ease-in-out;
+  }
+
+  @keyframes fadeInDown {
+      from {
+          opacity: 0;
+          transform: translateY(-20px);
+      }
+
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
