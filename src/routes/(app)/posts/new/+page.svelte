@@ -35,11 +35,11 @@
 		href="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.2.0/skins/ui/oxide/skin.min.css"
 	/>
 	<div class="my-3 flex justify-between">
-		<h1 class="w-2/4 items-center border-b py-3 text-2xl">Create a new blog post</h1>
-		<div class="items-center py-3">
-			<a href="/" class="flex gap-3">
+		<h1 class="md:w-2/4 w-auto items-center border-b py-3 text-2xl">Create a new blog post</h1>
+		<div class="items-center py-3 self-center px-2">
+			<a href="/" class="flex gap-3 items-center">
 				<GridOutline></GridOutline>
-				Voir les posts
+				<span class="hidden md:block">Voir les posts</span>
 			</a>
 		</div>
 	</div>
