@@ -1,6 +1,7 @@
 <script lang="ts">
 </script>
 
+
 <form class="space-y-5">
 	<div>
 		<label for="email" class="font-medium">Email</label>
