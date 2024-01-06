@@ -3,8 +3,8 @@
 
 	import '../../app.pcss';
 	import bgAuthImage from '$lib/images/auth-bg.jpg';
-	import { CloseCircleSolid, CompressOutline } from 'flowbite-svelte-icons';
-	import { Toast } from 'flowbite-svelte';
+	import { CompressOutline, InfoCircleSolid } from 'flowbite-svelte-icons';
+	import { Alert } from 'flowbite-svelte';
 	import { loginWithGoogle } from '$lib/auth.service';
 
 	let error: string | undefined;
@@ -21,13 +21,10 @@
 </script>
 
 {#if error}
-	<Toast color="red">
-		<svelte:fragment slot="icon">
-			<CloseCircleSolid class="h-5 w-5" />
-			<span class="sr-only">Error icon</span>
-		</svelte:fragment>
-		{error}
-	</Toast>
+	<Alert color="red" border>
+		<InfoCircleSolid slot="icon" class="h-4 w-4" />
+		<span class="font-medium">{error}</span>
+	</Alert>
 {/if}
 
 <div class="min-h-screen bg-cover bg-no-repeat" style="background-image: url('{bgAuthImage}');">
