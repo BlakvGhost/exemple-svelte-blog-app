@@ -3,12 +3,16 @@
 import { PUBLIC_LOCAL_STORAGE_KEY } from "$env/static/public";
 import { writable } from "svelte/store";
 
-interface AuthUser {
-    uid: string;
-    email: string;
-    first_name: string;
-    last_name: string;
-    avatar?: string,
+class AuthUser {
+    constructor(
+        public uid: string = '',
+        public email: string = '',
+        public first_name: string = '',
+        public last_name: string = '',
+        public avatar: string = '',
+    ) {
+
+    }
 }
 
 const getStoredUser = (): AuthUser | null => {
@@ -32,5 +36,4 @@ authUser.subscribe(($authUser) => {
     }
 });
 
-export { authUser };
-export type { AuthUser };
+export { authUser, AuthUser };

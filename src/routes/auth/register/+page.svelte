@@ -1,20 +1,13 @@
 <script lang="ts">
 	import { register as rg } from '$lib/auth.service';
-	import { type AuthUser } from '$lib/authStore';
+	import { AuthUser as User } from '$lib/authStore';
 	import { EMPTY_FIELDS_MESSAGE, PASSWORD_NOT_SAME_MESSAGE } from '$lib/message';
 	import { Alert } from 'flowbite-svelte';
 	import { InfoCircleSolid } from 'flowbite-svelte-icons';
 
-	let user: AuthUser = {
-		uid: '',
-		first_name: '',
-		last_name: '',
-		email: ''
-	};
-	let password: {
-		password1: string;
-		password2: string;
-	} = { password1: '', password2: '' };
+	let user = new User();
+
+	let password = { password1: '', password2: '' };
 
 	let error: string | undefined;
 

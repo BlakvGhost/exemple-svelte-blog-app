@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { login as lg } from '$lib/auth.service';
-	import { EMPTY_FIELDS_MESSAGE, PASSWORD_NOT_SAME_MESSAGE } from '$lib/message';
+	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
 	import { Alert } from 'flowbite-svelte';
 	import { InfoCircleSolid } from 'flowbite-svelte-icons';
 

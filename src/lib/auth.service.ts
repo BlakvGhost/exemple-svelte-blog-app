@@ -2,31 +2,32 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, type User as FirebaseAuthUser, signOut, browserLocalPersistence, setPersistence } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { goto } from '$app/navigation';
-import { authUser, type AuthUser } from './authStore';
+import { authUser, AuthUser as User } from './authStore';
 import { firebaseAuth, firestore } from './firebase/firebase.app';
 
 
-const getUserDataFromFirestore = async (uid: string): Promise<AuthUser> => {
+const getUserDataFromFirestore = async (uid: string): Promise<User> => {
     const userRef = doc(firestore, 'users', uid);
     const userDoc = await getDoc(userRef);
 
     const userData = userDoc.exists() ? userDoc.data() : {};
 
-    return {
-        uid: uid,
-        email: userData.email || '',
-        first_name: userData.first_name || '',
-        last_name: userData.last_name || '',
-    };
+    return new User(
+        uid,
+        userData.email,
+        userData.first_name,
+        userData.last_name,
+        userData.avatar
+    )
 };
 
-const createUserInFirestore = async (user: FirebaseAuthUser, additionalInfo: AuthUser) => {
-    const createdUser = {
-        first_name: additionalInfo.first_name,
-        last_name: additionalInfo.last_name,
-        email: additionalInfo.email,
-        avatar: additionalInfo.avatar,
-    };
+const createUserInFirestore = async (user: FirebaseAuthUser, additionalInfo: User) => {
+    const createdUser = new User(
+        additionalInfo.first_name,
+        additionalInfo.last_name,
+        additionalInfo.email,
+        additionalInfo.avatar,
+    );
 
     const userRef = doc(firestore, 'users', user.uid);
     await setDoc(userRef, createdUser);
@@ -38,7 +39,7 @@ const handleAuthError = (error: any, action: string) => {
     return `Erreur lors de ${action} : ${error?.message}`;
 };
 
-export const register = async (email: string, password: string, additionalInfo: AuthUser) => {
+export const register = async (email: string, password: string, additionalInfo: User) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(firebaseAuth, email, password);
         const user = userCredential.user;
@@ -83,13 +84,13 @@ export const loginWithGoogle = async () => {
                 authUser.set(userData);
                 goto('/');
             } else {
-                const createdUser = await createUserInFirestore(user, {
-                    first_name: user.displayName?.split(' ')[0] || '',
-                    last_name: user.displayName?.split(' ')[1] || '',
-                    email: user.email || '',
-                    uid: user.uid,
-                    avatar: user.photoURL || '',
-                });
+                const createdUser = await createUserInFirestore(user, new User(
+                    user.displayName?.split(' ')[0] || '',
+                    user.displayName?.split(' ')[1] || '',
+                    user.email || '',
+                    user.uid,
+                    user.photoURL || '',
+                ));
 
                 authUser.set(createdUser);
                 goto('/');
