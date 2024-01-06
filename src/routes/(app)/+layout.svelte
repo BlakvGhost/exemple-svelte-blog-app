@@ -17,6 +17,7 @@
 			custom_class = '';
 		});
 	});
+	
 </script>
 
 <div class="app flex min-h-screen w-full flex-col">

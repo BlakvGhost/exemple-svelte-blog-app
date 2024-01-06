@@ -8,6 +8,7 @@
 	$: isPage = function (page: string = 'login') {
 		return $page.route.id?.includes(page);
 	};
+	
 </script>
 
 <div class="min-h-screen bg-cover bg-no-repeat" style="background-image: url('{bgAuthImage}');">

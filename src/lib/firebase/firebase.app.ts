@@ -9,7 +9,7 @@ import {
 } from '$env/static/public';
 
 import { initializeApp, getApps } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { browserSessionPersistence, getAuth, setPersistence } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -25,5 +25,6 @@ const firebaseConfig = {
 const firebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 const firestore = getFirestore(firebaseApp);
 const firebaseAuth = getAuth(firebaseApp);
+setPersistence(firebaseAuth, browserSessionPersistence)
 
 export { firebaseApp, firebaseAuth, firestore };

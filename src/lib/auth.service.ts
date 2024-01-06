@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, type User as FirebaseAuthUser } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, type User as FirebaseAuthUser, signOut, browserLocalPersistence, setPersistence } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { goto } from '$app/navigation';
 import { authUser, type AuthUser } from './authStore';
 import { firebaseAuth, firestore } from './firebase/firebase.app';
+
 
 const getUserDataFromFirestore = async (uid: string): Promise<AuthUser> => {
     const userRef = doc(firestore, 'users', uid);
@@ -53,6 +54,7 @@ export const register = async (email: string, password: string, additionalInfo: 
 
 export const login = async (email: string, password: string) => {
     try {
+        await setPersistence(firebaseAuth, browserLocalPersistence);
         const userCredential = await signInWithEmailAndPassword(firebaseAuth, email, password);
         const user = userCredential.user;
 
@@ -100,3 +102,11 @@ export const loginWithGoogle = async () => {
     }
 };
 
+export const logout = async () => {
+    try {
+        await signOut(firebaseAuth);
+
+    } catch (error: any) {
+        console.error('Erreur lors de la déconnexion de l\'utilisateur:', error?.message);
+    }
+};
