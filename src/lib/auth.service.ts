@@ -33,7 +33,7 @@ const createUserInFirestore = async (user: FirebaseAuthUser, additionalInfo: Aut
 };
 
 const handleAuthError = (error: any, action: string) => {
-    console.error(`Erreur lors de ${action} :`, error?.message);
+    return `Erreur lors de ${action} : ${error?.message}`;
 };
 
 export const register = async (email: string, password: string, additionalInfo: AuthUser) => {
@@ -47,7 +47,7 @@ export const register = async (email: string, password: string, additionalInfo: 
             goto('/');
         }
     } catch (error: any) {
-        handleAuthError(error, 'l\'enregistrement de l\'utilisateur');
+        return handleAuthError(error, 'l\'enregistrement de l\'utilisateur');
     }
 };
 
@@ -67,7 +67,7 @@ export const login = async (email: string, password: string) => {
             }
         }
     } catch (error: any) {
-        handleAuthError(error, 'la connexion de l\'utilisateur');
+        return handleAuthError(error, 'la connexion de l\'utilisateur');
     }
 };
 
@@ -96,7 +96,7 @@ export const loginWithGoogle = async () => {
             }
         }
     } catch (error: any) {
-        handleAuthError(error, 'l\'inscription de l\'utilisateur avec Google');
+        return handleAuthError(error, 'l\'inscription de l\'utilisateur avec Google');
     }
 };
 

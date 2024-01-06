@@ -1,8 +1,42 @@
 <script lang="ts">
+	import { register as rg } from '$lib/auth.service';
+	import { type AuthUser } from '$lib/authStore';
+	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
+	import { Alert } from 'flowbite-svelte';
+	import { InfoCircleSolid } from 'flowbite-svelte-icons';
+
+	let user: AuthUser;
+	let password: {
+		password1: string;
+		password2: string;
+	};
+	let error: string | Promise<string | undefined>;
+
+	$: {
+		user;
+		password;
+		error;
+	}
+
+	function register(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
+		if (user.email && user.first_name && user.last_name && password.password1) {
+			if (password.password1 === password.password2) {
+				return (error = rg(user.first_name, password.password1, user));
+			}
+			return (error = EMPTY_FIELDS_MESSAGE);
+		}
+	}
 </script>
 
-<form class="space-y-2">
-	<div class="md:flex block items-center justify-center gap-2">
+{#if error}
+	<Alert color="red" border>
+		<InfoCircleSolid slot="icon" class="h-4 w-4" />
+		<span class="font-medium">Error!</span>
+		{error}
+	</Alert>
+{/if}
+<form class="space-y-2" on:submit|preventDefault={register}>
+	<div class="block items-center justify-center gap-2 md:flex">
 		<div>
 			<label class="font-medium" for="first_name">First Name</label>
 			<input
@@ -31,7 +65,7 @@
 			class="w-full rounded-lg border bg-transparent px-3 py-2 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
 		/>
 	</div>
-	<div class="md:flex block items-center justify-center gap-2">
+	<div class="block items-center justify-center gap-2 md:flex">
 		<div>
 			<label for="password" class="font-medium">Password</label>
 			<input
