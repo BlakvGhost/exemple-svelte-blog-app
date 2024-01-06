@@ -110,3 +110,5 @@ export const logout = async () => {
             console.error('Erreur lors de la déconnexion de l\'utilisateur:', error?.message);
         })
 };
+
+export { getUserDataFromFirestore }

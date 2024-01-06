@@ -1,4 +1,5 @@
 import type { AuthUser } from "$lib/authStore";
+import type { Category } from "$lib/category/category";
 
 export class Blog {
     constructor(
@@ -9,14 +10,5 @@ export class Blog {
         public category: Category,
         public cover: string,
         public user: AuthUser,
-    ) { }
-}
-
-export class Category {
-    constructor(
-        public uid: string,
-        public slug: string,
-        public desc: string,
-        public created_at: string,
     ) { }
 }
