@@ -9,7 +9,6 @@ import {
 } from '$env/static/public';
 
 import { initializeApp, getApps } from 'firebase/app';
-import { getAnalytics } from "firebase/analytics";
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
@@ -24,8 +23,7 @@ const firebaseConfig = {
 };
 
 const firebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
-const firebaseAnalytics = getAnalytics(firebaseApp);
 const firestore = getFirestore(firebaseApp);
 const firebaseAuth = getAuth(firebaseApp);
 
-export { firebaseApp, firebaseAuth, firebaseAnalytics, firestore };
+export { firebaseApp, firebaseAuth, firestore };
