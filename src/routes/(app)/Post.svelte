@@ -2,19 +2,22 @@
 	import { Card, Button } from 'flowbite-svelte';
 	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import blogImg from '$lib/images/auth-bg.jpg';
+	import { Blog } from '$lib/blog/blog';
 
 	export let type: boolean;
 
 	export let custom_class: string = 'w-full bg-primary-700 border-0 text-white';
+
+	export let post: Blog;
 </script>
 
 {#if type}
 	<Card class={custom_class}>
 		<h5 class="mb-2 font-bold tracking-tight text-gray-300 dark:text-white">
-			Noteworthy technology acquisitions 2021
+			{post.title}
 		</h5>
 		<p class="mb-3 font-normal leading-tight text-gray-900 dark:text-gray-400">
-			Here are the biggest enterprise....
+			
 		</p>
 		<Button class="w-fit">
 			Read more <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />
