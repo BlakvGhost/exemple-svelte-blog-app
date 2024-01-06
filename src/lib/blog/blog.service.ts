@@ -54,7 +54,6 @@ export async function create(blog: Blog): Promise<Blog | string> {
     }
 }
 
-
 export async function update(blog: Blog): Promise<Blog | string> {
     try {
         const postRef = doc(firestore, action, blog.uid);
