@@ -10,20 +10,21 @@ export const register = async (email: string, password: string, additionalInfo: 
         const user = userCredential.user;
 
         if (user) {
-            const userRef = doc(firestore, 'users', user.uid);
-            await setDoc(userRef, {
+            const createdUser = {
                 first_name: additionalInfo.first_name,
                 last_name: additionalInfo.last_name,
                 email: additionalInfo.email,
-            });
+            };
 
-            $: authUser = {
-                
-            }
+            const userRef = doc(firestore, 'users', user.uid);
+            await setDoc(userRef, createdUser);
+
+            authUser.set({ ...createdUser, ...{ uid: user.uid } })
 
             goto('/');
         }
-    } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
         console.error('Erreur lors de l\'enregistrement de l\'utilisateur:', error?.message);
     }
 };
