@@ -3,8 +3,10 @@ import { firestore } from '$lib/firebase/firebase.app';
 import { Category } from '$lib/category/category';
 import { CREATE_OBJECT_ERROR_MESSAGE } from '$lib/message';
 
+const action = 'categories';
+
 export async function get(uid: string): Promise<Category> {
-    const catRef = doc(firestore, 'posts', uid);
+    const catRef = doc(firestore, action, uid);
     const catDoc = await getDoc(catRef);
 
     const catData = catDoc.data();
@@ -19,7 +21,7 @@ export async function get(uid: string): Promise<Category> {
 
 export async function getIfExist(uid: string): Promise<Category | null> {
     try {
-        const catRef = doc(firestore, 'posts', uid);
+        const catRef = doc(firestore, action, uid);
         const catDoc = await getDoc(catRef);
 
         if (!catDoc.exists()) {
@@ -41,11 +43,11 @@ export async function getIfExist(uid: string): Promise<Category | null> {
 
 export async function create(category: Category): Promise<Category | string> {
     try {
-        const postsCollection = collection(firestore, 'categories');
+        const postsCollection = collection(firestore, action);
         await addDoc(postsCollection, category);
 
         return category;
     } catch (error) {
-        return CREATE_OBJECT_ERROR_MESSAGE + 'categorie';
+        return CREATE_OBJECT_ERROR_MESSAGE + action;
     }
 }
