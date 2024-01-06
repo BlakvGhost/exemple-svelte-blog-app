@@ -6,3 +6,4 @@ export const UPDATE_OBJECT_ERROR_MESSAGE = 'Erreur lors de la mise a jour de ';
 export const UPDATE_OBJECT_SUCCESS_MESSAGE = ' mise a jour avec sucess';
 export const REMOVE_OBJECT_ERROR_MESSAGE = 'Erreur lors de la suppression de ';
 export const REMOVE_OBJECT_SUCCESS_MESSAGE = ' supprimé avec sucess';
+export const ALL_OBJECT_ERROR_MESSAGE = 'Erreur lors de la récupération de toutes les publications';
