@@ -23,16 +23,9 @@ const firebaseConfig = {
     measurementId: PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-let firebaseApp;
-let firebaseAnalytics;
-let firestore;
-
-if (!getApps().length) {
-    firebaseApp = initializeApp(firebaseConfig);
-    firestore = getFirestore(firebaseApp);
-    firebaseAnalytics = getAnalytics(firebaseApp);
-}
-
+const firebaseApp = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
+const firebaseAnalytics = getAnalytics(firebaseApp);
+const firestore = getFirestore(firebaseApp);
 const firebaseAuth = getAuth(firebaseApp);
 
 export { firebaseApp, firebaseAuth, firebaseAnalytics, firestore };

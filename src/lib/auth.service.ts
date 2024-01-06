@@ -1,7 +1,8 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { AuthUser } from "./authSore";
-import { firebaseAuth } from "./firebase/firebase.app";
+import { type AuthUser, authUser } from "./authStore";
+import { firebaseAuth, firestore } from "./firebase/firebase.app";
 import { goto } from "$app/navigation";
+import { doc, setDoc } from "firebase/firestore";
 
 export const register = async (email: string, password: string, additionalInfo: AuthUser) => {
     try {
@@ -9,11 +10,16 @@ export const register = async (email: string, password: string, additionalInfo: 
         const user = userCredential.user;
 
         if (user) {
-            await firestore.collection('users').doc(user.uid).set({
+            const userRef = doc(firestore, 'users', user.uid);
+            await setDoc(userRef, {
                 first_name: additionalInfo.first_name,
                 last_name: additionalInfo.last_name,
                 email: additionalInfo.email,
             });
+
+            $: authUser = {
+                
+            }
 
             goto('/');
         }

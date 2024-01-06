@@ -7,6 +7,7 @@ interface AuthUser {
     last_name: string,
 }
 
-const AuthUser = writable<AuthUser | undefined>(undefined);
+const authUser = writable<AuthUser | undefined>(undefined);
 
-export { AuthUser }
+export { authUser };
+export type { AuthUser };
