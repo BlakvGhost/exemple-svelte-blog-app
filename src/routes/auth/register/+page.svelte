@@ -1,11 +1,16 @@
 <script lang="ts">
 	import { register as rg } from '$lib/auth.service';
 	import { type AuthUser } from '$lib/authStore';
-	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
+	import { EMPTY_FIELDS_MESSAGE, PASSWORD_NOT_SAME_MESSAGE } from '$lib/message';
 	import { Alert } from 'flowbite-svelte';
 	import { InfoCircleSolid } from 'flowbite-svelte-icons';
 
-	let user: AuthUser;
+	let user: AuthUser = {
+		uid: '',
+		first_name: '',
+		last_name: '',
+		email: ''
+	};
 	let password: {
 		password1: string;
 		password2: string;
@@ -23,8 +28,9 @@
 			if (password.password1 === password.password2) {
 				return (error = rg(user.first_name, password.password1, user));
 			}
-			return (error = EMPTY_FIELDS_MESSAGE);
+			return (error = PASSWORD_NOT_SAME_MESSAGE);
 		}
+		return (error = EMPTY_FIELDS_MESSAGE);
 	}
 </script>
 

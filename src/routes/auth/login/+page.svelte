@@ -8,7 +8,7 @@
 			id="email"
 			type="email"
 			required
-			class="mt-2 w-full rounded-lg border bg-transparent px-3 py-2 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
+			class="w-full rounded-lg border bg-transparent px-3 py-2 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
 		/>
 	</div>
 	<div>
@@ -17,7 +17,7 @@
 			id="password"
 			type="password"
 			required
-			class="mt-2 w-full rounded-lg border bg-transparent px-3 py-2 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
+			class="w-full rounded-lg border bg-transparent px-3 py-2 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
 		/>
 	</div>
 	<button
