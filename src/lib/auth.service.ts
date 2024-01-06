@@ -62,7 +62,7 @@ export const login = async (email: string, password: string) => {
             const userData = await getUserDataFromFirestore(user.uid);
 
             if (userData) {
-                authUser.set(userData);                
+                authUser.set(userData);
                 goto('/');
             } else {
                 console.error('Utilisateur non trouvé dans Firestore');
@@ -103,10 +103,11 @@ export const loginWithGoogle = async () => {
 };
 
 export const logout = async () => {
-    try {
-        await signOut(firebaseAuth);
-
-    } catch (error: any) {
-        console.error('Erreur lors de la déconnexion de l\'utilisateur:', error?.message);
-    }
+    signOut(firebaseAuth).then(() => {
+        authUser.set(null);
+        goto('/auth/login');
+    })
+        .catch((error) => {
+            console.error('Erreur lors de la déconnexion de l\'utilisateur:', error?.message);
+        })
 };

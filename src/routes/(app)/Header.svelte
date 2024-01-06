@@ -17,6 +17,7 @@
 		Input
 	} from 'flowbite-svelte';
 	import { CompressOutline, SearchOutline } from 'flowbite-svelte-icons';
+	import { logout } from '$lib/auth.service';
 
 	export let style;
 </script>
@@ -61,7 +62,7 @@
 			<DropdownItem>Profile</DropdownItem>
 			<DropdownItem>Settings</DropdownItem>
 			<DropdownDivider />
-			<DropdownItem class="text-red-900">Sign out</DropdownItem>
+			<DropdownItem class="text-red-900" on:click={logout}>Sign out</DropdownItem>
 		</Dropdown>
 		<NavUl {hidden} class="order-1">
 			<NavLi href="/" active={true} aria-current={$page.url.pathname === '/' ? 'page' : undefined}
