@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, type User as FirebaseAuthUser } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, type User as FirebaseAuthUser } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { goto } from '$app/navigation';
 import { authUser, type AuthUser } from './authStore';
@@ -70,3 +70,33 @@ export const login = async (email: string, password: string) => {
         handleAuthError(error, 'la connexion de l\'utilisateur');
     }
 };
+
+export const loginWithGoogle = async () => {
+    try {
+        const provider = new GoogleAuthProvider();
+        const userCredential = await signInWithPopup(firebaseAuth, provider);
+        const user = userCredential.user;
+
+        if (user) {
+            const userData = await getUserDataFromFirestore(user.uid);
+
+            if (userData) {
+                authUser.set(userData);
+                goto('/');
+            } else {
+                const createdUser = await createUserInFirestore(user, {
+                    first_name: user.displayName?.split(' ')[0] || '',
+                    last_name: user.displayName?.split(' ')[1] || '',
+                    email: user.email || '',
+                    uid: user.uid
+                });
+
+                authUser.set(createdUser);
+                goto('/');
+            }
+        }
+    } catch (error: any) {
+        handleAuthError(error, 'l\'inscription de l\'utilisateur avec Google');
+    }
+};
+
