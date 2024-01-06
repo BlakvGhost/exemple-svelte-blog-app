@@ -18,8 +18,11 @@
 	} from 'flowbite-svelte';
 	import { CompressOutline, SearchOutline } from 'flowbite-svelte-icons';
 	import { logout } from '$lib/auth.service';
+	import { authUser } from '$lib/authStore';
 
 	export let style;
+
+	$: user = $authUser;
 </script>
 
 <header class={style}>
@@ -56,8 +59,8 @@
 		</div>
 		<Dropdown placement="bottom" triggeredBy="#avatar-menu">
 			<DropdownHeader>
-				<span class="block text-sm">John DOE</span>
-				<span class="block truncate text-sm font-medium">kabirou2001@gmail.com</span>
+				<span class="block text-sm"> {user?.last_name} {user?.first_name} </span>
+				<span class="block truncate text-sm font-medium"> {user?.email} </span>
 			</DropdownHeader>
 			<DropdownItem>Profile</DropdownItem>
 			<DropdownItem>Settings</DropdownItem>
