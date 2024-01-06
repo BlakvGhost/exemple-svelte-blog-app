@@ -3,13 +3,32 @@
 
 	import '../../app.pcss';
 	import bgAuthImage from '$lib/images/auth-bg.jpg';
-	import { CompressOutline } from 'flowbite-svelte-icons';
+	import { CloseCircleSolid, CompressOutline } from 'flowbite-svelte-icons';
+	import { Toast } from 'flowbite-svelte';
+	import { loginWithGoogle } from '$lib/auth.service';
+
+	let error: string | undefined;
 
 	$: isPage = function (page: string = 'login') {
 		return $page.route.id?.includes(page);
 	};
-	
+
+	$: error;
+
+	async function lg() {
+		error = await loginWithGoogle();
+	}
 </script>
+
+{#if error}
+	<Toast color="red">
+		<svelte:fragment slot="icon">
+			<CloseCircleSolid class="h-5 w-5" />
+			<span class="sr-only">Error icon</span>
+		</svelte:fragment>
+		{error}
+	</Toast>
+{/if}
 
 <div class="min-h-screen bg-cover bg-no-repeat" style="background-image: url('{bgAuthImage}');">
 	<div class="app flex w-full flex-col">
@@ -54,6 +73,7 @@
 					<div class="space-y-6 p-4 py-6 sm:px-4 sm:py-0">
 						<div class="grid grid-cols-1 gap-x-3 sm:px-6">
 							<button
+								on:click={lg}
 								class="flex items-center justify-center rounded-lg border py-2.5 duration-150 hover:bg-gray-50 active:bg-gray-100"
 							>
 								<!-- Comment: Google Icon SVG here -->

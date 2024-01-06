@@ -25,6 +25,7 @@ const createUserInFirestore = async (user: FirebaseAuthUser, additionalInfo: Aut
         first_name: additionalInfo.first_name,
         last_name: additionalInfo.last_name,
         email: additionalInfo.email,
+        avatar: additionalInfo.avatar,
     };
 
     const userRef = doc(firestore, 'users', user.uid);
@@ -61,12 +62,8 @@ export const login = async (email: string, password: string) => {
         if (user) {
             const userData = await getUserDataFromFirestore(user.uid);
 
-            if (userData) {
-                authUser.set(userData);
-                goto('/');
-            } else {
-                console.error('Utilisateur non trouvé dans Firestore');
-            }
+            authUser.set(userData);
+            goto('/');
         }
     } catch (error: any) {
         return handleAuthError(error, 'la connexion de l\'utilisateur');
@@ -82,7 +79,7 @@ export const loginWithGoogle = async () => {
         if (user) {
             const userData = await getUserDataFromFirestore(user.uid);
 
-            if (userData) {
+            if (userData.email && userData.first_name) {
                 authUser.set(userData);
                 goto('/');
             } else {
@@ -90,7 +87,8 @@ export const loginWithGoogle = async () => {
                     first_name: user.displayName?.split(' ')[0] || '',
                     last_name: user.displayName?.split(' ')[1] || '',
                     email: user.email || '',
-                    uid: user.uid
+                    uid: user.uid,
+                    avatar: user.photoURL || '',
                 });
 
                 authUser.set(createdUser);

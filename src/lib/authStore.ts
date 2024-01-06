@@ -8,6 +8,7 @@ interface AuthUser {
     email: string;
     first_name: string;
     last_name: string;
+    avatar?: string,
 }
 
 const getStoredUser = (): AuthUser | null => {
