@@ -1,8 +1,9 @@
-import { doc, getDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
 import { Blog } from './blog';
 import { firestore } from '$lib/firebase/firebase.app';
 import { get as getCat } from '$lib/category/category.service';
 import { getUserDataFromFirestore } from '$lib/auth.service';
+import { CREATE_OBJECT_ERROR_MESSAGE } from '$lib/message';
 
 export async function get(uid: string): Promise<Blog | null> {
     try {
@@ -15,8 +16,8 @@ export async function get(uid: string): Promise<Blog | null> {
 
         const postData = postDoc.data();
 
-        const relatedCategory = await getCat(postData?.uid);
-        const relatedUser = await getUserDataFromFirestore(postData?.uid);
+        const relatedCategory = await getCat(postData?.category.uid);
+        const relatedUser = await getUserDataFromFirestore(postData?.user.uid);
 
         return new Blog(
             postData?.uid,
@@ -29,5 +30,24 @@ export async function get(uid: string): Promise<Blog | null> {
         );
     } catch (error) {
         return null;
+    }
+}
+
+export async function create(blog: Blog): Promise<Blog | string> {
+    try {
+        const postsCollection = collection(firestore, 'posts');
+        await addDoc(postsCollection, {
+            uid: blog.uid,
+            title: blog.title,
+            content: blog.content,
+            created_at: blog.created_at,
+            cover: blog.cover,
+            category_uid: blog.category.uid,
+            user_uid: blog.user.uid,
+        });
+
+        return blog;
+    } catch (error) {
+        return CREATE_OBJECT_ERROR_MESSAGE + 'article';
     }
 }

@@ -1,13 +1,13 @@
-import { doc, getDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
 import { firestore } from '$lib/firebase/firebase.app';
 import { Category } from '$lib/category/category';
+import { CREATE_OBJECT_ERROR_MESSAGE } from '$lib/message';
 
 export async function get(uid: string): Promise<Category> {
     const catRef = doc(firestore, 'posts', uid);
     const catDoc = await getDoc(catRef);
 
     const catData = catDoc.data();
-
 
     return new Category(
         catData?.uid,
@@ -28,7 +28,6 @@ export async function getIfExist(uid: string): Promise<Category | null> {
 
         const catData = catDoc.data();
 
-
         return new Category(
             catData?.uid,
             catData?.slug,
@@ -37,5 +36,16 @@ export async function getIfExist(uid: string): Promise<Category | null> {
         )
     } catch (error) {
         return null;
+    }
+}
+
+export async function create(category: Category): Promise<Category | string> {
+    try {
+        const postsCollection = collection(firestore, 'categories');
+        await addDoc(postsCollection, category);
+
+        return category;
+    } catch (error) {
+        return CREATE_OBJECT_ERROR_MESSAGE + 'categorie';
     }
 }
