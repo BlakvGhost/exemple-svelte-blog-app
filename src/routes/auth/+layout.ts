@@ -1,11 +1,14 @@
 import { authUser } from '$lib/authStore';
-import { redirect } from '@sveltejs/kit';
 import type { LayoutLoad } from './$types';
+import { goto } from '$app/navigation';
 
 export const load: LayoutLoad = async () => {
     const unsubscribe = authUser.subscribe((user) => {
-        if (user) {
-            throw redirect(302, '/');
+
+        if (!import.meta.env.SSR) {
+            if (user) {
+                goto('/');
+            }
         }
     });
 

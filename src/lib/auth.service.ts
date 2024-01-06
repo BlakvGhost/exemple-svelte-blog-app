@@ -62,7 +62,7 @@ export const login = async (email: string, password: string) => {
             const userData = await getUserDataFromFirestore(user.uid);
 
             if (userData) {
-                authUser.set(userData);
+                authUser.set(userData);                
                 goto('/');
             } else {
                 console.error('Utilisateur non trouvé dans Firestore');
