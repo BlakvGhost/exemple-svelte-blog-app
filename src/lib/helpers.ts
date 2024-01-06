@@ -21,5 +21,6 @@ export const urlify = (title: string): string => {
 
 export const reduceText = (data: string, length: number) => {
     const text = sanitize(data);
-    return text.slice(0, length);
+    const dots = text.length > length ? '...': '';
+    return text.slice(0, length) + dots;
 };
