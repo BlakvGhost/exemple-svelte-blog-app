@@ -14,19 +14,25 @@
 	let password: {
 		password1: string;
 		password2: string;
-	};
-	let error: string | Promise<string | undefined>;
+	} = { password1: '', password2: '' };
+
+	let error: string | undefined;
+
+	let process = false;
 
 	$: {
 		user;
 		password;
 		error;
+		process;
 	}
 
-	function register(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
+	async function register(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
 		if (user.email && user.first_name && user.last_name && password.password1) {
 			if (password.password1 === password.password2) {
-				return (error = rg(user.first_name, password.password1, user));
+				process = true;
+				error = await rg(user.email, password.password1, user);
+				return (process = false);
 			}
 			return (error = PASSWORD_NOT_SAME_MESSAGE);
 		}
@@ -37,8 +43,7 @@
 {#if error}
 	<Alert color="red" border>
 		<InfoCircleSolid slot="icon" class="h-4 w-4" />
-		<span class="font-medium">Error!</span>
-		{error}
+		<span class="font-medium">{error}</span>
 	</Alert>
 {/if}
 <form class="space-y-2" on:submit|preventDefault={register}>
@@ -46,6 +51,7 @@
 		<div>
 			<label class="font-medium" for="first_name">First Name</label>
 			<input
+				bind:value={user.first_name}
 				id="first_name"
 				type="text"
 				required
@@ -55,6 +61,7 @@
 		<div>
 			<label for="last_name" class="font-medium">Last Name</label>
 			<input
+				bind:value={user.last_name}
 				id="last_name"
 				type="text"
 				required
@@ -65,6 +72,7 @@
 	<div>
 		<label for="email" class="font-medium">Email</label>
 		<input
+			bind:value={user.email}
 			id="email"
 			type="email"
 			required
@@ -75,6 +83,7 @@
 		<div>
 			<label for="password" class="font-medium">Password</label>
 			<input
+				bind:value={password.password1}
 				id="password"
 				type="password"
 				required
@@ -84,6 +93,7 @@
 		<div>
 			<label for="password_confirm" class="font-medium">Confirm Password</label>
 			<input
+				bind:value={password.password2}
 				id="password_confirm"
 				type="password"
 				required
@@ -93,10 +103,21 @@
 	</div>
 
 	<div class="pt-3">
-		<button
-			class="w-full rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white duration-150 hover:bg-indigo-500 active:bg-indigo-600"
-		>
-			Sign Up
-		</button>
+		{#if process}
+			<button
+				type="button"
+				class="w-full rounded-lg bg-indigo-400 px-4 py-2 font-medium text-white"
+				disabled
+			>
+				<span class="mr-3 h-5 w-5 animate-spin"> </span>
+				Processing...
+			</button>
+		{:else}
+			<button
+				class="w-full rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white duration-150 hover:bg-indigo-500 active:bg-indigo-600"
+			>
+				Sign Up
+			</button>
+		{/if}
 	</div>
 </form>
