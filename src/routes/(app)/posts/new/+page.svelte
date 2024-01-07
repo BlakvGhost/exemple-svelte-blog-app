@@ -44,9 +44,9 @@
 
 <div class="container mx-auto">
 	<div class="my-3 flex justify-between">
-		<h1 class="w-auto items-center border-b py-3 text-2xl md:w-2/4">Create a new blog post</h1>
+		<h1 class="w-auto items-center border-b px-1 py-3 text-2xl md:w-2/4">Create a new blog post</h1>
 		<div class="items-center self-center px-2 py-3">
-			<a href="/" class="flex items-center gap-3">
+			<a href="/posts" class="flex items-center gap-3">
 				<GridOutline></GridOutline>
 				<span class="hidden md:block">Voir les posts</span>
 			</a>

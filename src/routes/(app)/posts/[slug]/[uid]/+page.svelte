@@ -13,9 +13,9 @@
 </script>
 
 <div class="container mx-auto px-4 text-gray-100 lg:px-12">
-	<header class="mt-8 flex justify-between">
-		<h1 class="text-3xl font-bold text-gray-100">{data?.title}</h1>
-		<span>
+	<header class="mt-8 md:flex block justify-between">
+		<h1 class="text-3xl my-2 font-bold text-gray-100">{data?.title}</h1>
+		<span class="my-2">
 			Posted on {data?.created_at} by
 			<span class="text-gray-300 underline">{data?.user.first_name} {data?.user.last_name}</span>
 		</span>
