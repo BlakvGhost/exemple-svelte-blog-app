@@ -48,6 +48,7 @@
 	"type": "module",
 	"dependencies": {
 		"@popperjs/core": "^2.11.8",
+		"@tinymce/tinymce-svelte": "^2.0.1",
 		"tailwind-merge": "^2.2.0"
 	}
 }
