@@ -1,5 +1,4 @@
 <script lang="ts">
-	import authBgImg from '$lib/images/auth-bg.jpg';
 	import Post from './Post.svelte';
 	import { getAll } from '$lib/blog/blog.service';
 	import { lastOpenedPost, Blog } from '$lib/blog/blog';
