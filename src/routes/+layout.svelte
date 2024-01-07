@@ -2,5 +2,5 @@
 	import { ProgressBar } from '@prgm/sveltekit-progress-bar';
 </script>
 
-<ProgressBar class="text-green-500" />
+<ProgressBar class="text-green-500" zIndex={10000}/>
 <slot />
