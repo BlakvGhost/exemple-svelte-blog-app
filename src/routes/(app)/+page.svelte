@@ -1,39 +1,12 @@
 <script lang="ts">
 	import Post from './Post.svelte';
-	import { getAll } from '$lib/blog/blog.service';
-	import { lastOpenedPost, Blog } from '$lib/blog/blog';
-	import { onMount } from 'svelte';
+	import { lastOpenedPost } from '$lib/blog/blog';
 	import { reduceText, urlify } from '$lib/helpers';
+	import type { PageData } from './$types';
 
-	let error: string;
-	let posts: Blog[] = [];
-	let popularPosts: Blog[] = [];
-	let recentPosts: Blog[] = [];
-	let lastOpened: Blog | null = new Blog();
+	$: lastOpened = $lastOpenedPost;
 
-	$: {
-		popularPosts = posts?.slice(2, -1);
-		recentPosts = posts?.slice(0, 2);
-		lastOpened = $lastOpenedPost;
-	}
-
-	async function getPosts() {
-		const post = await getAll();
-
-		if (typeof post == 'string') {
-			return (error = post);
-		}
-		posts = post;
-
-		if ($lastOpenedPost == null) {
-			const randomIndex = Math.floor(Math.random() * posts.length);
-			lastOpenedPost.set(posts[randomIndex]);
-		}
-	}
-
-	onMount(() => {
-		getPosts();
-	});
+	export let data: PageData;
 </script>
 
 <div class="">
@@ -62,7 +35,7 @@
 						</div>
 						<div class="my-2">
 							<div class="flex w-full flex-col gap-3 overflow-auto">
-								{#each popularPosts as post}
+								{#each data.popularPosts as post}
 									<Post {post} type={true} custom_class="w-full bg-primary-600 border-0 text-white"
 									></Post>
 								{/each}
@@ -78,7 +51,7 @@
 			<h1 class="border-b py-3 text-2xl">Populars Posts</h1>
 		</div>
 		<div class="my-4 flex flex-col items-center gap-4">
-			{#each popularPosts as post}
+			{#each data.popularPosts as post}
 				<Post {post} type={true} custom_class="bg-primary-600 w-full border-0 text-white"></Post>
 			{/each}
 		</div>
@@ -88,7 +61,7 @@
 			<h1 class="border-b py-3 text-2xl">Recents Posts</h1>
 		</div>
 		<div class="my-4 grid grid-cols-2 gap-4 md:grid-cols-4">
-			{#each recentPosts as post}
+			{#each data.recentPosts as post}
 				<Post {post} type={false}></Post>
 			{/each}
 		</div>
