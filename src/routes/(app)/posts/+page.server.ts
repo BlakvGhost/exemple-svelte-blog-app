@@ -1,5 +1,3 @@
-export const prerender = true;
-
 import { getAll as getAllPost } from '$lib/blog/blog.service';
 import type { PageServerLoad } from './$types';
 
