@@ -1,6 +1,5 @@
 export const prerender = true;
 
-import { lastOpenedPost } from '$lib/blog/blog';
 import { getAll as getAllPost } from '$lib/blog/blog.service';
 import type { PageServerLoad } from './$types';
 
@@ -28,15 +27,6 @@ export const load: PageServerLoad = async () => {
             avatar: blog.user.avatar,
         },
     }));
-
-    // lastOpenedPost.subscribe($post => {
-    //     if (!import.meta.env.SSR) {
-    //         if ($post == null) {
-    //             const randomIndex = Math.floor(Math.random() * posts.length);
-    //             lastOpenedPost.set(serializedPosts[randomIndex]);
-    //         }
-    //     }
-    // })
 
     return {
         posts: serializedPosts,

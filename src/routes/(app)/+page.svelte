@@ -20,11 +20,11 @@
 </script>
 
 {#if !lastOpened}
-<div class="fixed flex h-screen w-full items-center justify-center bg-slate-900">
-	<div class="text-center">
-		<Spinner size=80 color="yellow" />
+	<div class="fixed flex h-screen w-full items-center justify-center bg-slate-900">
+		<div class="text-center">
+			<Spinner size="80" color="yellow" />
+		</div>
 	</div>
-</div>
 {/if}
 <div class="">
 	<div class="h-screen w-full overflow-hidden">
@@ -39,7 +39,7 @@
 					</div>
 					<div class="my-6">
 						<a
-							href="/posts/{urlify(lastOpened?.title ?? '')}"
+							href="/posts/{lastOpened?.uid}/{urlify(lastOpened?.title ?? '')}"
 							class="my-4 border bg-transparent p-3 font-bold
 							transition hover:border-primary-900 hover:bg-primary-900">Continue Reading</a
 						>

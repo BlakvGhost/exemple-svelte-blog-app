@@ -19,16 +19,16 @@ export async function get(uid: string): Promise<Blog | null> {
 
         const postData = postDoc.data();
 
-        const relatedCategory = await getCat(postData?.category.uid);
-        const relatedUser = await getUserDataFromFirestore(postData?.user.uid);
+        const relatedCategory = await getCat(postData?.category_uid);
+        const relatedUser = await getUserDataFromFirestore(postData?.user_uid);
 
         return new Blog(
-            postData?.uid,
-            postData?.title,
-            postData?.content,
-            postData?.created_at,
+            uid,
+            postData.title,
+            postData.content,
+            postData.created_at,
             relatedCategory,
-            postData?.cover,
+            postData.cover,
             relatedUser
         );
     } catch (error) {
