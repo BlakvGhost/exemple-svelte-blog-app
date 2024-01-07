@@ -45,13 +45,17 @@
 </script>
 
 {#if type}
-	<Card title={category.slug} class={custom_class + getColorBySlug(category.uid)} href="/category/{category.uid}/{urlify(category.slug)}">
+	<Card
+		title={category.slug}
+		class={custom_class + getColorBySlug(category.uid)}
+		href="/category/{category.uid}/{urlify(category.slug)}"
+	>
 		<h5 class="mb-2 font-bold tracking-tight text-gray-300 dark:text-white">
 			{category.slug}
 		</h5>
 	</Card>
 {:else if postStatus.status != 200}
-	<Card class="mb-4 {custom_class + getColorBySlug(category.uid)} card-c">
+	<Card class="mb-4 {custom_class + getColorBySlug(category.uid)}">
 		<h5 class="mb-2 font-bold tracking-tight text-gray-300 dark:text-white">
 			{category.slug}
 		</h5>
@@ -65,11 +69,11 @@
 			{#if hasPermission}
 				<Button class="w-fit bg-blue-900" href="/category/edit/{category.uid}">
 					<EditOutline class="ms-2 h-3.5 w-3.5 text-white" />
-					<Tooltip> Delete </Tooltip>
+					<Tooltip>Edit</Tooltip>
 				</Button>
 				<Button class="w-fit bg-red-800" on:click={() => (popupModal = true)}>
 					<TrashBinOutline class="ms-2 h-3.5 w-3.5 text-white" />
-					<Tooltip> Edit </Tooltip>
+					<Tooltip>Delete</Tooltip>
 				</Button>
 
 				<Modal
@@ -92,7 +96,7 @@
 		</div>
 	</Card>
 {/if}
-<Modal
+<!-- <Modal
 	class="modal bg-gray-700 {!popupModal ?? 'active'}"
 	bind:open={canShowSecondModal}
 	autoclose
@@ -102,4 +106,4 @@
 		{category.slug}
 		{postStatus.message}
 	</p>
-</Modal>
+</Modal> -->

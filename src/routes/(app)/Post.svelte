@@ -76,11 +76,11 @@
 			{#if hasPermission}
 				<Button class="w-fit bg-blue-900" href="/posts/edit/{post.uid}">
 					<EditOutline class="ms-2 h-3.5 w-3.5 text-white" />
-					<Tooltip> Delete </Tooltip>
+					<Tooltip> Edit </Tooltip>
 				</Button>
 				<Button class="w-fit bg-red-800" on:click={() => (popupModal = true)}>
 					<TrashBinOutline class="ms-2 h-3.5 w-3.5 text-white" />
-					<Tooltip> Edit </Tooltip>
+					<Tooltip> Delete </Tooltip>
 				</Button>
 
 				<Modal

@@ -3,6 +3,7 @@ import { firestore } from '$lib/firebase/firebase.app';
 import { Category } from '$lib/category/category';
 import { ALL_OBJECT_ERROR_MESSAGE, CREATE_OBJECT_ERROR_MESSAGE, CREATE_OBJECT_SUCCESS_MESSAGE, REMOVE_OBJECT_ERROR_MESSAGE, REMOVE_OBJECT_SUCCESS_MESSAGE, UPDATE_OBJECT_ERROR_MESSAGE, UPDATE_OBJECT_SUCCESS_MESSAGE } from '$lib/message';
 import { Success as Response } from '$lib/blog/blog';
+import { getUserDataFromFirestore } from '$lib/auth.service';
 
 const action = 'categories';
 
@@ -12,11 +13,14 @@ export async function get(uid: string): Promise<Category> {
 
     const catData = catDoc.data();
 
+    const relatedUser = await getUserDataFromFirestore(catData?.user_uid);
+
     return new Category(
         uid,
         catData?.slug,
         catData?.desc,
-        catData?.created_at,
+        relatedUser,
+        catData?.created_at
     )
 }
 
@@ -51,6 +55,7 @@ export async function create(category: Category): Promise<Response> {
             slug: category.slug,
             desc: category.desc,
             created_at: category.created_at,
+            user_uid: category.user.uid
         });
 
         return new Response(200, CREATE_OBJECT_SUCCESS_MESSAGE);
@@ -96,10 +101,13 @@ export async function getAll(): Promise<Category[] | string> {
         for (const doc of querySnapshot.docs) {
             const postData = doc.data();
 
+            const relatedUser = await getUserDataFromFirestore(postData?.user_uid ?? '');            
+
             const cat = new Category(
                 doc.id,
                 postData.slug,
                 postData.desc,
+                relatedUser,
                 postData.created_at,
             );
 

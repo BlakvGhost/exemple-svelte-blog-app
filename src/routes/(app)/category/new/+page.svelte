@@ -1,36 +1,34 @@
 <script lang="ts">
-	import { Label, Input, Fileupload, Alert, Button, Spinner } from 'flowbite-svelte';
+	import { Label, Input, Fileupload, Alert, Button, Spinner, Textarea } from 'flowbite-svelte';
 	import { GridOutline, InfoCircleSolid } from 'flowbite-svelte-icons';
 	import Editor from '@tinymce/tinymce-svelte';
 	import { Blog, Success } from '$lib/blog/blog';
 	import type { PageData } from './$types';
-	import { create } from '$lib/blog/blog.service';
+	import { create } from '$lib/category/category.service';
 	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
 	import { authUser } from '$lib/authStore';
 	import { scroll } from '$lib/helpers';
+	import { Category } from '$lib/category/category';
 
-	let blog = new Blog();
+	let category = new Category();
 
 	let postStatus = new Success();
-	let selectedFile: File;
-	let selectedCategory: string;
 	let process = false;
 
 	$: {
 		postStatus;
 		process;
-		blog;
+		category;
 	}
 
-	const createPost = async () => {
-
-		if (blog.title && selectedCategory && selectedFile && blog.content) {
+	const createCategory = async () => {
+		if (category.slug && category.desc) {
 			process = true;
-			blog.user.uid = $authUser?.uid ?? '';
-			postStatus = await create(blog, selectedFile, selectedCategory);
+			category.user.uid = $authUser?.uid ?? '';
+			postStatus = await create(category);
 
 			if (postStatus.status == 200) {
-				blog = new Blog();
+				category = new Category();
 			}
 			scroll();
 			return (process = false);
@@ -38,21 +36,15 @@
 		scroll();
 		return (postStatus = new Success(404, EMPTY_FIELDS_MESSAGE));
 	};
-
-	const handleFileChange = (event: any) => {
-		selectedFile = event.target.files[0];
-	};
-
-	export let data: PageData;
 </script>
 
 <div class="container mx-auto">
 	<div class="my-3 flex justify-between">
-		<h1 class="w-auto items-center border-b px-1 py-3 text-2xl md:w-2/4">Create a new blog post</h1>
+		<h1 class="w-auto items-center border-b px-1 py-3 text-2xl md:w-2/4">Create a new category</h1>
 		<div class="items-center self-center px-2 py-3">
-			<a href="/posts" class="flex items-center gap-3">
+			<a href="/category" class="flex items-center gap-3">
 				<GridOutline></GridOutline>
-				<span class="hidden md:block">Voir les posts</span>
+				<span class="hidden md:block">View categories</span>
 			</a>
 		</div>
 	</div>
@@ -69,46 +61,23 @@
 	{/if}
 	<div class="my-2">
 		<form
-			on:submit|preventDefault={createPost}
+			on:submit|preventDefault={createCategory}
 			method="post"
 			class="flex flex-wrap items-center pb-8 pt-2"
 		>
-			<div class="w-full p-3 md:w-2/4 md:p-0">
+			<div class="mx-auto w-full p-3 md:w-2/4 md:p-0">
 				<div class="mb-6">
-					<Label for="title_id" class="mb-2 block text-gray-300">Title</Label>
-					<Input id="title_id" placeholder="Title" bind:value={blog.title} />
+					<Label for="title_id" class="mb-2 block text-gray-300">Slug</Label>
+					<Input id="title_id" placeholder="Title" bind:value={category.slug} />
 				</div>
 				<div class="mb-6">
-					<Label for="cat_id" class="mb-2 block text-gray-300">Category</Label>
-					<select
-						bind:value={selectedCategory}
-						name="cat"
-						id="cat_id"
-						class="mt-2 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-					>
-						{#each data.categories as cat}
-							<option value={cat.uid} title={cat.desc}> {cat.slug} </option>
-						{/each}
-					</select>
+					<Label for="desc_id" class="mb-2 block text-gray-300">Description</Label>
+					<Textarea id="desc_id" placeholder="Some description..." bind:value={category.desc} />
 				</div>
-				<div class="mb-6">
-					<Label for="cover_id" class="mb-2 block text-gray-300">Attached Image</Label>
-					<Fileupload on:change={handleFileChange} />
-				</div>
-			</div>
-			<div class="w-full p-3 md:w-2/4 md:ps-5">
-				<label for="content" class="mb-2 block text-gray-300">Content</label>
-				<Editor
-					apiKey="n3w6swvi4w96q4o74th2p77fos0znlf4vki56r6tfbutu7az"
-					channel="6"
-					id="content"
-					modelEvents="input change undo redo"
-					bind:value={blog.content}
-				/>
 			</div>
 			<div class="w-full text-center">
 				{#if process}
-					<Button disabled class="w-2/4 my-5">
+					<Button disabled class="my-5 w-2/4">
 						<Spinner class="me-3" size="4" color="white" />Processing ...
 					</Button>
 				{:else}

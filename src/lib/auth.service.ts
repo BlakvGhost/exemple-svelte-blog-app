@@ -14,10 +14,10 @@ const getUserDataFromFirestore = async (uid: string): Promise<User> => {
 
     return new User(
         uid,
-        userData.email,
-        userData.first_name,
-        userData.last_name,
-        userData.avatar
+        userData?.email || '',
+        userData?.first_name || '',
+        userData?.last_name || '',
+        userData?.avatar || ''
     )
 };
 

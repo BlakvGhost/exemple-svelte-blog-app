@@ -16,7 +16,7 @@
 			</a>
 			<Tooltip> Create </Tooltip>
 		</div>
-		<div class="my-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+		<div class="my-4 grid grid-cols-2 gap-4 md:grid-cols-3">
 			{#each data.categories as category}
 				<Category
 					cat_page={true}

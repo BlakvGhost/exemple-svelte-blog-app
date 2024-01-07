@@ -3,6 +3,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
     let categories = await getAll();
+    console.log(categories)
     categories = typeof categories === 'string' ? [] : categories;
 
     const serializedCategories = categories.map(category => ({
@@ -18,6 +19,7 @@ export const load: PageServerLoad = async () => {
             avatar: category.user?.avatar,
         },
     }));
-
+    console.log(serializedCategories);
+    
     return { categories: serializedCategories }
 };
