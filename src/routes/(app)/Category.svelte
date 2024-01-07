@@ -6,10 +6,11 @@
 		TrashBinOutline,
 		ExclamationCircleOutline
 	} from 'flowbite-svelte-icons';
-	import { Blog, Success } from '$lib/blog/blog';
-	import { reduceText, urlify } from '$lib/helpers';
+	import { Success } from '$lib/blog/blog';
+	import { getColorBySlug, urlify } from '$lib/helpers';
 	import { authUser } from '$lib/authStore';
-	import { remove } from '$lib/blog/blog.service';
+	import { remove } from '$lib/category/category.service';
+	import type { Category } from '$lib/category/category';
 
 	let postStatus = new Success();
 	let process = false;
@@ -19,18 +20,18 @@
 
 	export let type: boolean;
 
-	export let custom_class: string = 'w-full bg-primary-700 border-0 text-white';
+	export let custom_class: string = `w-full bg-primary-700 border-0 text-white `;
 
-	export let post: Blog;
+	export let category: Category;
 
-	export let blog_page = false;
+	export let cat_page = false;
 
-	const hasPermission = blog_page && post.user.uid === $authUser?.uid;
+	const hasPermission = cat_page && category.user.uid === $authUser?.uid;
 
 	const deletePost = async () => {
 		if (hasPermission) {
 			process = true;
-			postStatus = await remove(post.uid);
+			postStatus = await remove(category.uid);
 
 			process = false;
 		}
@@ -44,37 +45,25 @@
 </script>
 
 {#if type}
-	<Card class={custom_class}>
+	<Card title={category.slug} class={custom_class + getColorBySlug(category.uid)} href="/category/{category.uid}/{urlify(category.slug)}">
 		<h5 class="mb-2 font-bold tracking-tight text-gray-300 dark:text-white">
-			{reduceText(post.title, 20)}
+			{category.slug}
 		</h5>
-		<p class="mb-3 font-normal leading-tight text-gray-900 dark:text-gray-400">
-			{reduceText(post.content, 30)}
-		</p>
-		<Button class="w-fit" href="/posts/{post.uid}/{urlify(post.title)}">
-			Read more <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />
-		</Button>
 	</Card>
 {:else if postStatus.status != 200}
-	<Card img={post.cover} class="mb-4 {custom_class} card-c">
+	<Card class="mb-4 {custom_class + getColorBySlug(category.uid)} card-c">
 		<h5 class="mb-2 font-bold tracking-tight text-gray-300 dark:text-white">
-			{reduceText(post.title, 20)}
-			<div class="my-2">
-				<a href="/" class="bg-primary-400 px-2 py-1" title={post.category?.desc}>
-					{post.category.slug}
-				</a>
-				<Tooltip> {post.category.desc} </Tooltip>
-			</div>
+			{category.slug}
 		</h5>
 		<p class="mb-3 font-normal leading-tight text-gray-900 dark:text-gray-400">
-			{reduceText(post.content, 30)}
+			{category.desc}
 		</p>
 		<div class="flex gap-3">
-			<Button class="w-fit bg-gray-500" href="/posts/{post.uid}/{urlify(post.title)}">
-				Read more <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />
+			<Button class="w-fit bg-gray-500" href="/category/{category.uid}/{urlify(category.slug)}">
+				Show posts <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />
 			</Button>
 			{#if hasPermission}
-				<Button class="w-fit bg-blue-900" href="/posts/edit/{post.uid}">
+				<Button class="w-fit bg-blue-900" href="/category/edit/{category.uid}">
 					<EditOutline class="ms-2 h-3.5 w-3.5 text-white" />
 					<Tooltip> Delete </Tooltip>
 				</Button>
@@ -93,7 +82,7 @@
 					<div class="text-center">
 						<ExclamationCircleOutline class="mx-auto mb-4 h-12 w-12 text-gray-200" />
 						<h3 class="mb-5 text-lg font-normal text-gray-400">
-							Are you sure you want to delete {post.title} ?
+							Are you sure you want to delete {category.slug} ?
 						</h3>
 						<Button color="red" class="me-2" on:click={deletePost}>Yes, I'm sure</Button>
 						<Button color="alternative">No, cancel</Button>
@@ -110,13 +99,7 @@
 	outsideclose
 >
 	<p class="text-center text-base leading-relaxed text-gray-400">
-		{post.title}
+		{category.slug}
 		{postStatus.message}
 	</p>
 </Modal>
-
-<style>
-	:global(.card-c img) {
-		height: 200px !important;
-	}
-</style>

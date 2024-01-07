@@ -1,7 +1,8 @@
-import { collection, doc, getDoc, getDocs, orderBy, query, setDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
 import { firestore } from '$lib/firebase/firebase.app';
 import { Category } from '$lib/category/category';
-import { ALL_OBJECT_ERROR_MESSAGE, CREATE_OBJECT_ERROR_MESSAGE } from '$lib/message';
+import { ALL_OBJECT_ERROR_MESSAGE, CREATE_OBJECT_ERROR_MESSAGE, CREATE_OBJECT_SUCCESS_MESSAGE, REMOVE_OBJECT_ERROR_MESSAGE, REMOVE_OBJECT_SUCCESS_MESSAGE, UPDATE_OBJECT_ERROR_MESSAGE, UPDATE_OBJECT_SUCCESS_MESSAGE } from '$lib/message';
+import { Success as Response } from '$lib/blog/blog';
 
 const action = 'categories';
 
@@ -41,7 +42,7 @@ export async function getIfExist(uid: string): Promise<Category | null> {
     }
 }
 
-export async function create(category: Category): Promise<Category | string> {
+export async function create(category: Category): Promise<Response> {
     try {
         const postsCollection = collection(firestore, action);
         const newDocRef = doc(postsCollection);
@@ -52,12 +53,35 @@ export async function create(category: Category): Promise<Category | string> {
             created_at: category.created_at,
         });
 
-        return {
-            ...category,
-            uid: newDocRef.id,
-        };
+        return new Response(200, CREATE_OBJECT_SUCCESS_MESSAGE);
     } catch (error) {
-        return CREATE_OBJECT_ERROR_MESSAGE + action + `: ${error}`;
+        return new Response(404, CREATE_OBJECT_ERROR_MESSAGE + action);
+    }
+}
+
+export async function update(category: Category): Promise<Response> {
+    try {
+        const postRef = doc(firestore, action, category.uid);
+
+        await updateDoc(postRef, {
+            slug: category.slug,
+            desc: category.desc,
+            created_at: category.created_at,
+        });
+
+        return new Response(200, UPDATE_OBJECT_SUCCESS_MESSAGE);
+    } catch (error) {
+        return new Response(404, UPDATE_OBJECT_ERROR_MESSAGE + action);
+    }
+}
+
+export async function remove(uid: string): Promise<Response> {
+    try {
+        const postRef = doc(firestore, action, uid);
+        await deleteDoc(postRef);
+        return new Response(200, REMOVE_OBJECT_SUCCESS_MESSAGE);
+    } catch (error) {
+        return new Response(404, REMOVE_OBJECT_ERROR_MESSAGE + "votre categorie");
     }
 }
 
