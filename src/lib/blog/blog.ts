@@ -8,7 +8,7 @@ export class Blog {
         public uid: string = '',
         public title: string = '',
         public content: string = '',
-        public created_at: string = '',
+        public created_at: string = new Date().toString(),
         public category = new Category(),
         public cover: string = '',
         public user = new User(),

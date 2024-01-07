@@ -84,7 +84,7 @@ export async function remove(uid: string): Promise<void | string> {
 
 export async function getAll(): Promise<Blog[] | string> {
     try {
-        const postsCollection = collection(firestore, 'posts');
+        const postsCollection = collection(firestore, action);
         const q = query(postsCollection, orderBy('created_at', 'desc'));
         const querySnapshot = await getDocs(q);
 

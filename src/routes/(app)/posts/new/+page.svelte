@@ -1,18 +1,18 @@
 <script lang="ts">
-	import { Label, Input, Select, Fileupload } from 'flowbite-svelte';
+	import { Label, Input, Fileupload } from 'flowbite-svelte';
 	import { GridOutline } from 'flowbite-svelte-icons';
-	import { onMount } from 'svelte';
 	import Editor from '@tinymce/tinymce-svelte';
+	import { Blog } from '$lib/blog/blog';
+	import type { PageData } from './$types';
 
-	let category: string;
+	let blog = new Blog();
 
-	let categories = [
-		{ value: 'Robotics', name: 'Robotics' },
-		{ value: 'ca', name: 'Canada' },
-		{ value: 'fr', name: 'France' }
-	];
+	async function createPost() {
 
-	onMount(() => {});
+	}
+
+	export let data: PageData;
+
 </script>
 
 <div class="container mx-auto">
@@ -30,14 +30,23 @@
 			<div class="w-full p-3 md:w-2/4 md:p-0">
 				<div class="mb-6">
 					<Label for="title_id" class="mb-2 block text-gray-300">Title</Label>
-					<Input id="title_id" placeholder="Title" />
+					<Input id="title_id" placeholder="Title" bind:value={blog.title} />
 				</div>
 				<div class="mb-6">
-					<Label for="title_id" class="mb-2 block text-gray-300">Category</Label>
-					<Select class="mt-2" items={categories} bind:value={category} />
+					<Label for="cat_id" class="mb-2 block text-gray-300">Category</Label>
+					<select
+						bind:value={blog.category}
+						name="cat"
+						id="cat_id"
+						class="mt-2 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+					>
+						{#each data.categories as cat}
+							<option value={cat.uid} title={cat.desc}> {cat.slug} </option>
+						{/each}
+					</select>
 				</div>
 				<div class="mb-6">
-					<Label for="title_id" class="mb-2 block text-gray-300">Attached Image</Label>
+					<Label for="cover_id" class="mb-2 block text-gray-300">Attached Image</Label>
 					<Fileupload />
 				</div>
 			</div>
@@ -48,6 +57,7 @@
 					channel="6"
 					id="content"
 					modelEvents="input change undo redo"
+					bind:value={blog.content}
 				/>
 			</div>
 			<div class="w-full text-center">
