@@ -28,7 +28,7 @@ export const load: PageServerLoad = async () => {
 
     return {
         posts: serializedPosts,
-        recentPosts: serializedPosts?.slice(2),
+        recentPosts: serializedPosts?.slice(2, 12),
         popularPosts: serializedPosts?.slice(0, 2),
     };
 };

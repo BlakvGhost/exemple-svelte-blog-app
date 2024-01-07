@@ -22,6 +22,10 @@
 	}
 
 	const createPost = async () => {
+		window.scroll({
+			top: 0,
+			behavior: 'smooth'
+		});
 		if (blog.title && selectedCategory && selectedFile && blog.content) {
 			process = true;
 			blog.user.uid = $authUser?.uid ?? '';
@@ -53,12 +57,12 @@
 		</div>
 	</div>
 	{#if postStatus.status == 200}
-		<Alert color="blue" border class="mx-auto my-3 md:w-2/4 w-full text-center">
+		<Alert color="blue" border class="mx-auto my-4 w-full text-center md:w-2/4">
 			<InfoCircleSolid slot="icon" class="h-4 w-4" />
 			<span class="font-medium">{postStatus.message}</span>
 		</Alert>
 	{:else if postStatus.status == 404}
-		<Alert color="red" border class="mx-auto my-3 md:w-2/4 w-full text-center">
+		<Alert color="red" border class="mx-auto my-4 w-full text-center md:w-2/4">
 			<InfoCircleSolid slot="icon" class="h-4 w-4" />
 			<span class="font-medium">{postStatus.message}</span>
 		</Alert>
