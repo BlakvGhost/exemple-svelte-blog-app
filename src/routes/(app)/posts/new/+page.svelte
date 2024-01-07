@@ -6,22 +6,28 @@
 	import type { PageData } from './$types';
 	import { create } from '$lib/blog/blog.service';
 	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
+	import { authUser } from '$lib/authStore';
 
 	let blog = new Blog();
 
 	let postStatus = new Success();
+	let selectedFile: File;
+	let selectedCategory: string;
 
 	$: postStatus;
 
-	async function createPost() {
-		console.log(blog);
-		
+	const createPost = async () => {
 		if (blog.title && blog.category.uid && blog.content && blog.user.uid) {
-			postStatus = await create(blog);
+			blog.user.uid = $authUser?.uid ?? '';
+			postStatus = await create(blog, selectedFile, selectedCategory);
 		} else {
 			postStatus = new Success(404, EMPTY_FIELDS_MESSAGE);
 		}
-	}
+	};
+
+	const handleFileChange = (event: any) => {
+		selectedFile = event.target.files[0];
+	};
 
 	export let data: PageData;
 </script>
@@ -61,7 +67,7 @@
 				<div class="mb-6">
 					<Label for="cat_id" class="mb-2 block text-gray-300">Category</Label>
 					<select
-						bind:value={blog.category}
+						bind:value={selectedCategory}
 						name="cat"
 						id="cat_id"
 						class="mt-2 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
@@ -73,7 +79,7 @@
 				</div>
 				<div class="mb-6">
 					<Label for="cover_id" class="mb-2 block text-gray-300">Attached Image</Label>
-					<Fileupload />
+					<Fileupload on:change={handleFileChange} />
 				</div>
 			</div>
 			<div class="w-full p-3 md:w-2/4 md:ps-5">

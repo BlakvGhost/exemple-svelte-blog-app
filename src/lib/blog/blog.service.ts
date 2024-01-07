@@ -1,6 +1,7 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
+import { ref, uploadBytes } from 'firebase/storage';
 import { Blog, Success } from './blog';
-import { firestore } from '$lib/firebase/firebase.app';
+import { firebaseStorage, firestore } from '$lib/firebase/firebase.app';
 import { get as getCat } from '$lib/category/category.service';
 import { getUserDataFromFirestore } from '$lib/auth.service';
 import { ALL_OBJECT_ERROR_MESSAGE, CREATE_OBJECT_ERROR_MESSAGE, CREATE_OBJECT_SUCCESS_MESSAGE, REMOVE_OBJECT_ERROR_MESSAGE, UPDATE_OBJECT_ERROR_MESSAGE, UPDATE_OBJECT_SUCCESS_MESSAGE } from '$lib/message';
@@ -35,16 +36,19 @@ export async function get(uid: string): Promise<Blog | null> {
     }
 }
 
-export async function create(blog: Blog): Promise<Success> {
+export async function create(blog: Blog, selectedFile: File, category_uid: string): Promise<Success> {
     try {
+        const storageRef = ref(firebaseStorage, `${action}/cover/${selectedFile.name}`);
+        const filePath = (await uploadBytes(storageRef, selectedFile)).metadata.fullPath;
+
         const postsCollection = collection(firestore, action);
         await addDoc(postsCollection, {
             uid: blog.uid,
             title: blog.title,
             content: blog.content,
             created_at: blog.created_at,
-            cover: blog.cover,
-            category_uid: blog.category.uid,
+            cover: filePath,
+            category_uid: category_uid,
             user_uid: blog.user.uid,
         });
         return new Success(200, CREATE_OBJECT_SUCCESS_MESSAGE);
