@@ -53,12 +53,12 @@
 		</div>
 	</div>
 	{#if postStatus.status == 200}
-		<Alert color="blue" border class="mx-auto my-3 w-2/4 text-center">
+		<Alert color="blue" border class="mx-auto my-3 md:w-2/4 w-full text-center">
 			<InfoCircleSolid slot="icon" class="h-4 w-4" />
 			<span class="font-medium">{postStatus.message}</span>
 		</Alert>
 	{:else if postStatus.status == 404}
-		<Alert color="red" border class="mx-auto my-3 w-2/4 text-center">
+		<Alert color="red" border class="mx-auto my-3 md:w-2/4 w-full text-center">
 			<InfoCircleSolid slot="icon" class="h-4 w-4" />
 			<span class="font-medium">{postStatus.message}</span>
 		</Alert>

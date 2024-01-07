@@ -24,7 +24,7 @@
 		</Button>
 	</Card>
 {:else}
-	<Card img={post.cover} class="mb-4 {custom_class}">
+	<Card img={post.cover} class="mb-4 {custom_class} card-c">
 		<h5 class="mb-2 font-bold tracking-tight text-gray-300 dark:text-white">
 			{reduceText(post.title, 20)}
 			<div class="my-2">
@@ -41,3 +41,9 @@
 		</Button>
 	</Card>
 {/if}
+
+<style>
+	:global(.card-c img) {
+		height: 200px !important;
+	}
+</style>

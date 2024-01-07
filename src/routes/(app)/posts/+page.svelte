@@ -12,7 +12,7 @@
 		</div>
 		<div class="my-4 grid grid-cols-1 gap-4 md:grid-cols-3">
 			{#each data.post as post}
-				<Post {post} type={true} custom_class="bg-primary-600 border-0 text-white"></Post>
+				<Post {post} type={false} custom_class="bg-primary-600 border-0 text-white"></Post>
 			{/each}
 		</div>
 	</div>
