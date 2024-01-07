@@ -41,8 +41,6 @@ export async function create(blog: Blog, selectedFile: File, category_uid: strin
         const storageRef = ref(firebaseStorage, `${action}/cover/${selectedFile.name}`);
         let filePath = (await uploadBytes(storageRef, selectedFile)).metadata.fullPath;
         filePath = await getDownloadURL(storageRef);
-        console.log(filePath);
-        
 
         const postsCollection = collection(firestore, action);
         const newDocRef = doc(postsCollection);
@@ -99,22 +97,21 @@ export async function getAll(): Promise<Blog[] | string> {
         for (const doc of querySnapshot.docs) {
             const postData = doc.data();
 
-            const relatedCategory = await getCat(postData?.uid);
-            const relatedUser = await getUserDataFromFirestore(postData?.uid);
+            const relatedCategory = await getCat(postData?.category_uid);
+            const relatedUser = await getUserDataFromFirestore(postData?.user_uid);
 
             const blog = new Blog(
-                postData?.uid,
-                postData?.title,
-                postData?.content,
-                postData?.created_at,
+                doc.id,
+                postData.title,
+                postData.content,
+                postData.created_at,
                 relatedCategory,
-                postData?.cover,
+                postData.cover,
                 relatedUser
             );
 
             blogs.push(blog);
         }
-
         return blogs;
     } catch (error) {
         return ALL_OBJECT_ERROR_MESSAGE;

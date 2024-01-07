@@ -14,8 +14,19 @@ export const load: PageServerLoad = async () => {
         content: blog.content,
         created_at: blog.created_at,
         cover: blog.cover,
-        category: blog.category,
-        user: blog.user,
+        category: {
+            slug: blog.category.slug,
+            uid: blog.category.uid,
+            desc: blog.category.desc,
+            created_at: blog.category.created_at
+        },
+        user: {
+            uid: blog.user.uid,
+            first_name: blog.user.first_name,
+            last_name: blog.user.last_name,
+            email: blog.user.email,
+            avatar: blog.user.avatar,
+        },
     }));
 
     lastOpenedPost.subscribe($post => {
