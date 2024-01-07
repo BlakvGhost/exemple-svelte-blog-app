@@ -14,10 +14,17 @@
 	let selectedFile: File;
 	let selectedCategory: string;
 
-	$: postStatus;
+	$: {
+		postStatus,
+		selectedCategory,
+		selectedFile
+	};
+
 
 	const createPost = async () => {
-		if (blog.title && blog.category.uid && blog.content && blog.user.uid) {
+		console.log(selectedCategory);
+		
+		if (blog.title && selectedCategory && selectedFile && blog.content) {
 			blog.user.uid = $authUser?.uid ?? '';
 			postStatus = await create(blog, selectedFile, selectedCategory);
 		} else {
@@ -30,6 +37,7 @@
 	};
 
 	export let data: PageData;
+	
 </script>
 
 <div class="container mx-auto">

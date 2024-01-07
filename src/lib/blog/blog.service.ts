@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
 import { Blog, Success } from './blog';
 import { firebaseStorage, firestore } from '$lib/firebase/firebase.app';
@@ -42,7 +42,8 @@ export async function create(blog: Blog, selectedFile: File, category_uid: strin
         const filePath = (await uploadBytes(storageRef, selectedFile)).metadata.fullPath;
 
         const postsCollection = collection(firestore, action);
-        await addDoc(postsCollection, {
+        const newDocRef = doc(postsCollection);
+        await setDoc(newDocRef, {
             uid: blog.uid,
             title: blog.title,
             content: blog.content,
@@ -93,8 +94,9 @@ export async function getAll(): Promise<Blog[] | string> {
 
         const blogs: Blog[] = [];
 
-        querySnapshot.forEach(async (doc) => {
+        for (const doc of querySnapshot.docs) {
             const postData = doc.data();
+
             const relatedCategory = await getCat(postData?.uid);
             const relatedUser = await getUserDataFromFirestore(postData?.uid);
 
@@ -109,7 +111,7 @@ export async function getAll(): Promise<Blog[] | string> {
             );
 
             blogs.push(blog);
-        });
+        }
 
         return blogs;
     } catch (error) {

@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, orderBy, query, setDoc } from 'firebase/firestore';
 import { firestore } from '$lib/firebase/firebase.app';
 import { Category } from '$lib/category/category';
 import { ALL_OBJECT_ERROR_MESSAGE, CREATE_OBJECT_ERROR_MESSAGE } from '$lib/message';
@@ -44,13 +44,18 @@ export async function getIfExist(uid: string): Promise<Category | null> {
 export async function create(category: Category): Promise<Category | string> {
     try {
         const postsCollection = collection(firestore, action);
-        await addDoc(postsCollection, {
+        const newDocRef = doc(postsCollection);
+
+        await setDoc(newDocRef, {
             slug: category.slug,
             desc: category.desc,
             created_at: category.created_at,
         });
 
-        return category;
+        return {
+            ...category,
+            uid: newDocRef.id,
+        };
     } catch (error) {
         return CREATE_OBJECT_ERROR_MESSAGE + action + `: ${error}`;
     }
@@ -64,20 +69,20 @@ export async function getAll(): Promise<Category[] | string> {
 
         const cats: Category[] = [];
 
-        querySnapshot.forEach(async (doc) => {
+        for (const doc of querySnapshot.docs) {
             const postData = doc.data();
 
             const cat = new Category(
-                postData?.uid,
-                postData?.slug,
-                postData?.desc,
-                postData?.created_at,
+                doc.id,
+                postData.slug,
+                postData.desc,
+                postData.created_at,
             );
 
             cats.push(cat);
-        });
-
+        }
         return cats;
+
     } catch (error) {
         return ALL_OBJECT_ERROR_MESSAGE;
     }
