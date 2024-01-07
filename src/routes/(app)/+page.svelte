@@ -3,12 +3,29 @@
 	import { lastOpenedPost } from '$lib/blog/blog';
 	import { reduceText, urlify } from '$lib/helpers';
 	import type { PageData } from './$types';
+	import { onMount } from 'svelte';
+	import { Spinner } from 'flowbite-svelte';
 
 	$: lastOpened = $lastOpenedPost;
+
+	onMount(() => {
+		if ($lastOpenedPost == null) {
+			const posts = data.posts;
+			const randomIndex = Math.floor(Math.random() * posts.length);
+			lastOpenedPost.set(posts[randomIndex]);
+		}
+	});
 
 	export let data: PageData;
 </script>
 
+{#if !lastOpened}
+<div class="fixed flex h-screen w-full items-center justify-center bg-slate-900">
+	<div class="text-center">
+		<Spinner size=80 color="yellow" />
+	</div>
+</div>
+{/if}
 <div class="">
 	<div class="h-screen w-full overflow-hidden">
 		<div class="h-full w-full" style="background-image: url('{lastOpened?.cover}');">
@@ -17,8 +34,8 @@
 					<div class="w-fit bg-gray-900 p-2">
 						<h1>{lastOpened?.category.slug}</h1>
 					</div>
-					<div class="my-3">
-						<h1 class="text-6xl">{reduceText(lastOpened?.title ?? '', 10)}</h1>
+					<div class="my-4">
+						<h1 class="text-6xl">{reduceText(lastOpened?.title ?? '', 20)}</h1>
 					</div>
 					<div class="my-6">
 						<a

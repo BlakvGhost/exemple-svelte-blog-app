@@ -14,10 +14,10 @@
 {#if type}
 	<Card class={custom_class}>
 		<h5 class="mb-2 font-bold tracking-tight text-gray-300 dark:text-white">
-			{reduceText(post.title, 10)}
+			{reduceText(post.title, 20)}
 		</h5>
 		<p class="mb-3 font-normal leading-tight text-gray-900 dark:text-gray-400">
-			{reduceText(post.content, 20)}
+			{reduceText(post.content, 30)}
 		</p>
 		<Button class="w-fit" href="/posts/{urlify(post.title)}">
 			Read more <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />
@@ -26,7 +26,7 @@
 {:else}
 	<Card img={post.cover} class="mb-4 {custom_class}">
 		<h5 class="mb-2 font-bold tracking-tight text-gray-300 dark:text-white">
-			{reduceText(post.title, 10)}
+			{reduceText(post.title, 20)}
 			<div class="my-2">
 				<a href="/" class="bg-primary-400 px-2 py-1" title={post.category?.desc}>
 					{post.category.slug}
@@ -34,7 +34,7 @@
 			</div>
 		</h5>
 		<p class="mb-3 font-normal leading-tight text-gray-900 dark:text-gray-400">
-			{reduceText(post.content, 20)}
+			{reduceText(post.content, 30)}
 		</p>
 		<Button class="w-fit" href="/posts/{urlify(post.title)}">
 			Read more <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />

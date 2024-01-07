@@ -35,6 +35,7 @@ const lastOpenedPost = writable<Blog | null>(getLastOpenedPost());
 
 lastOpenedPost.subscribe(($lastOpenedPost) => {
     if (!import.meta.env.SSR) {
+        
         if ($lastOpenedPost) {
             localStorage.setItem(PUBLIC_LAST_POST_LOCAL_STORAGE_KEY, JSON.stringify($lastOpenedPost));
         } else {

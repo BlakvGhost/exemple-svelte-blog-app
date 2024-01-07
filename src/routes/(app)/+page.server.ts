@@ -29,16 +29,18 @@ export const load: PageServerLoad = async () => {
         },
     }));
 
-    lastOpenedPost.subscribe($post => {
-        if ($post == null) {
-            const randomIndex = Math.floor(Math.random() * posts.length);
-            lastOpenedPost.set(serializedPosts[randomIndex]);
-        }
-    })
+    // lastOpenedPost.subscribe($post => {
+    //     if (!import.meta.env.SSR) {
+    //         if ($post == null) {
+    //             const randomIndex = Math.floor(Math.random() * posts.length);
+    //             lastOpenedPost.set(serializedPosts[randomIndex]);
+    //         }
+    //     }
+    // })
 
     return {
         posts: serializedPosts,
-        popularPosts: serializedPosts?.slice(2, -1),
-        recentPosts: serializedPosts?.slice(0, 2),
+        recentPosts: serializedPosts?.slice(2),
+        popularPosts: serializedPosts?.slice(0, 2),
     };
 };
