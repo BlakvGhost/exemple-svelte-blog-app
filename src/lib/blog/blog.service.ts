@@ -1,9 +1,9 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc } from 'firebase/firestore';
-import { Blog } from './blog';
+import { Blog, Success } from './blog';
 import { firestore } from '$lib/firebase/firebase.app';
 import { get as getCat } from '$lib/category/category.service';
 import { getUserDataFromFirestore } from '$lib/auth.service';
-import { ALL_OBJECT_ERROR_MESSAGE, CREATE_OBJECT_ERROR_MESSAGE, REMOVE_OBJECT_ERROR_MESSAGE, UPDATE_OBJECT_ERROR_MESSAGE } from '$lib/message';
+import { ALL_OBJECT_ERROR_MESSAGE, CREATE_OBJECT_ERROR_MESSAGE, CREATE_OBJECT_SUCCESS_MESSAGE, REMOVE_OBJECT_ERROR_MESSAGE, UPDATE_OBJECT_ERROR_MESSAGE, UPDATE_OBJECT_SUCCESS_MESSAGE } from '$lib/message';
 
 const action = 'posts';
 
@@ -35,7 +35,7 @@ export async function get(uid: string): Promise<Blog | null> {
     }
 }
 
-export async function create(blog: Blog): Promise<Blog | string> {
+export async function create(blog: Blog): Promise<Success> {
     try {
         const postsCollection = collection(firestore, action);
         await addDoc(postsCollection, {
@@ -47,14 +47,13 @@ export async function create(blog: Blog): Promise<Blog | string> {
             category_uid: blog.category.uid,
             user_uid: blog.user.uid,
         });
-
-        return blog;
+        return new Success(200, CREATE_OBJECT_SUCCESS_MESSAGE);
     } catch (error) {
-        return CREATE_OBJECT_ERROR_MESSAGE + action;
+        return new Success(404, CREATE_OBJECT_ERROR_MESSAGE + action);
     }
 }
 
-export async function update(blog: Blog): Promise<Blog | string> {
+export async function update(blog: Blog): Promise<Success> {
     try {
         const postRef = doc(firestore, action, blog.uid);
         await updateDoc(postRef, {
@@ -67,9 +66,9 @@ export async function update(blog: Blog): Promise<Blog | string> {
             user_uid: blog.user.uid,
         });
 
-        return blog;
+        return new Success(200, UPDATE_OBJECT_SUCCESS_MESSAGE);
     } catch (error) {
-        return UPDATE_OBJECT_ERROR_MESSAGE + action;
+        return new Success(404, UPDATE_OBJECT_ERROR_MESSAGE + action);
     }
 }
 

@@ -1,18 +1,29 @@
 <script lang="ts">
-	import { Label, Input, Fileupload } from 'flowbite-svelte';
-	import { GridOutline } from 'flowbite-svelte-icons';
+	import { Label, Input, Fileupload, Alert } from 'flowbite-svelte';
+	import { GridOutline, InfoCircleSolid } from 'flowbite-svelte-icons';
 	import Editor from '@tinymce/tinymce-svelte';
-	import { Blog } from '$lib/blog/blog';
+	import { Blog, Success } from '$lib/blog/blog';
 	import type { PageData } from './$types';
+	import { create } from '$lib/blog/blog.service';
+	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
 
 	let blog = new Blog();
 
-	async function createPost() {
+	let postStatus = new Success();
 
+	$: postStatus;
+
+	async function createPost() {
+		console.log(blog);
+		
+		if (blog.title && blog.category.uid && blog.content && blog.user.uid) {
+			postStatus = await create(blog);
+		} else {
+			postStatus = new Success(404, EMPTY_FIELDS_MESSAGE);
+		}
 	}
 
 	export let data: PageData;
-
 </script>
 
 <div class="container mx-auto">
@@ -25,8 +36,23 @@
 			</a>
 		</div>
 	</div>
+	{#if postStatus.status == 200}
+		<Alert color="blue" border class="mx-auto my-3 w-2/4 text-center">
+			<InfoCircleSolid slot="icon" class="h-4 w-4" />
+			<span class="font-medium">{postStatus.message}</span>
+		</Alert>
+	{:else if postStatus.status == 404}
+		<Alert color="red" border class="mx-auto my-3 w-2/4 text-center">
+			<InfoCircleSolid slot="icon" class="h-4 w-4" />
+			<span class="font-medium">{postStatus.message}</span>
+		</Alert>
+	{/if}
 	<div class="my-2">
-		<form action="" method="post" class="flex flex-wrap items-center py-8">
+		<form
+			on:submit|preventDefault={createPost}
+			method="post"
+			class="flex flex-wrap items-center py-8"
+		>
 			<div class="w-full p-3 md:w-2/4 md:p-0">
 				<div class="mb-6">
 					<Label for="title_id" class="mb-2 block text-gray-300">Title</Label>
