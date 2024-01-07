@@ -21,6 +21,13 @@ export const urlify = (title: string): string => {
 
 export const reduceText = (data: string, length: number) => {
     const text = sanitize(data);
-    const dots = text.length > length ? '...': '';
+    const dots = text.length > length ? '...' : '';
     return text.slice(0, length) + dots;
+};
+
+export const scroll = (top: number = 0) => {
+    window.scroll({
+        top: top,
+        behavior: 'smooth'
+    });
 };

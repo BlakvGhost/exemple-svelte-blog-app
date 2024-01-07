@@ -7,6 +7,7 @@
 	import { create } from '$lib/blog/blog.service';
 	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
 	import { authUser } from '$lib/authStore';
+	import { scroll } from '$lib/helpers';
 
 	let blog = new Blog();
 
@@ -22,12 +23,7 @@
 	}
 
 	const createPost = async () => {
-		const scroll = () => {
-			window.scroll({
-				top: 0,
-				behavior: 'smooth'
-			});
-		};
+
 		if (blog.title && selectedCategory && selectedFile && blog.content) {
 			process = true;
 			blog.user.uid = $authUser?.uid ?? '';
@@ -112,7 +108,7 @@
 			</div>
 			<div class="w-full text-center">
 				{#if process}
-					<Button disabled>
+					<Button disabled class="w-2/4 my-5">
 						<Spinner class="me-3" size="4" color="white" />Processing ...
 					</Button>
 				{:else}

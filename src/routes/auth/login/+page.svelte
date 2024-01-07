@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { login as lg } from '$lib/auth.service';
+	import { scroll } from '$lib/helpers';
 	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
-	import { Alert } from 'flowbite-svelte';
+	import { Alert, Button, Spinner } from 'flowbite-svelte';
 	import { InfoCircleSolid } from 'flowbite-svelte-icons';
 
 	let email = '';
@@ -22,8 +23,14 @@
 		if (email && password) {
 			process = true;
 			error = await lg(email, password);
+
+			if (typeof error == 'string') {
+				scroll();
+			}
+
 			return (process = false);
 		}
+		scroll();
 		return (error = EMPTY_FIELDS_MESSAGE);
 	}
 </script>
@@ -56,14 +63,9 @@
 		/>
 	</div>
 	{#if process}
-		<button
-			type="button"
-			class="w-full rounded-lg bg-indigo-400 px-4 py-2 font-medium text-white"
-			disabled
-		>
-			<span class="mr-3 h-5 w-5 animate-spin"> </span>
-			Processing...
-		</button>
+		<Button class="w-full">
+			<Spinner class="me-3" size="4" color="white" />Processing ...
+		</Button>
 	{:else}
 		<button
 			class="w-full rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white duration-150 hover:bg-indigo-500 active:bg-indigo-600"
