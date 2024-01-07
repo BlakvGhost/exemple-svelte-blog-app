@@ -9,6 +9,7 @@
 	import { authUser } from '$lib/authStore';
 	import { scroll } from '$lib/helpers';
 	import { onMount } from 'svelte';
+	import PageLoader from '../../../../PageLoader.svelte';
 
 	let postStatus = new Success();
 	let selectedFile: File | undefined;
@@ -47,6 +48,7 @@
 	export let data: PageData;
 </script>
 
+<PageLoader show={!data.post.uid} />
 <div class="container mx-auto">
 	<div class="my-3 flex justify-between">
 		<h1 class="w-auto items-center border-b px-1 py-3 text-2xl md:w-2/4">Edit {title}</h1>

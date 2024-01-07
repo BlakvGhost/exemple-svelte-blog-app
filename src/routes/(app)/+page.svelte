@@ -4,7 +4,7 @@
 	import { reduceText, urlify } from '$lib/helpers';
 	import type { PageData } from './$types';
 	import { onMount } from 'svelte';
-	import { Spinner } from 'flowbite-svelte';
+	import PageLoader from '../PageLoader.svelte';
 
 	$: lastOpened = $lastOpenedPost;
 
@@ -19,13 +19,7 @@
 	export let data: PageData;
 </script>
 
-{#if !lastOpened}
-	<div class="fixed flex h-screen w-full items-center justify-center bg-slate-900">
-		<div class="text-center">
-			<Spinner size="80" color="yellow" />
-		</div>
-	</div>
-{/if}
+<PageLoader show={!lastOpened}/>
 <div class="">
 	<div class="h-screen w-full overflow-hidden">
 		<div class="h-full w-full" style="background-image: url('{lastOpened?.cover ?? ''}');">
