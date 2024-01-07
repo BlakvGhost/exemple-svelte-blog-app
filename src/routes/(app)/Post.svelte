@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Card, Button } from 'flowbite-svelte';
-	import { ArrowRightOutline } from 'flowbite-svelte-icons';
+	import { ArrowRightOutline, EditOutline, TrashBinOutline } from 'flowbite-svelte-icons';
 	import { Blog } from '$lib/blog/blog';
 	import { reduceText, urlify } from '$lib/helpers';
 	import { authUser } from '$lib/authStore';
@@ -14,7 +14,6 @@
 	export let blog_page = false;
 
 	const havePermission = blog_page && post.user.uid === $authUser?.uid;
-	
 </script>
 
 {#if type}
@@ -42,17 +41,19 @@
 		<p class="mb-3 font-normal leading-tight text-gray-900 dark:text-gray-400">
 			{reduceText(post.content, 30)}
 		</p>
-		<Button class="w-fit bg-gray-500" href="/posts/{post.uid}/{urlify(post.title)}">
-			Read more <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />
-		</Button>
-		{#if havePermission}
+		<div class="flex gap-3">
 			<Button class="w-fit bg-gray-500" href="/posts/{post.uid}/{urlify(post.title)}">
 				Read more <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />
 			</Button>
-			<Button class="w-fit bg-gray-500" href="/posts/{post.uid}/{urlify(post.title)}">
-				Read more <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />
-			</Button>
-		{/if}
+			{#if havePermission}
+				<Button class="w-fit bg-blue-900" href="/posts/edit/{post.uid}">
+					<EditOutline class="ms-2 h-3.5 w-3.5 text-white" />
+				</Button>
+				<Button class="w-fit bg-red-800" href="/posts/{post.uid}/{urlify(post.title)}">
+					<TrashBinOutline class="ms-2 h-3.5 w-3.5 text-white" />
+				</Button>
+			{/if}
+		</div>
 	</Card>
 {/if}
 
