@@ -39,7 +39,7 @@
 					</div>
 					<div class="my-10">
 						<a
-							href="/posts/{lastOpened?.uid ?? ''}/{urlify(lastOpened?.title ?? '')}"
+							href="/posts/{lastOpened?.uid ?? 'x'}/{urlify(lastOpened?.title ?? 'x')}"
 							class="my-4 border bg-transparent p-3 font-bold
 							transition hover:border-primary-900 hover:bg-primary-900">Continue Reading</a
 						>
