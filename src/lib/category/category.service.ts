@@ -12,7 +12,7 @@ export async function get(uid: string): Promise<Category> {
     const catData = catDoc.data();
 
     return new Category(
-        catData?.uid,
+        uid,
         catData?.slug,
         catData?.desc,
         catData?.created_at,
@@ -31,7 +31,7 @@ export async function getIfExist(uid: string): Promise<Category | null> {
         const catData = catDoc.data();
 
         return new Category(
-            catData?.uid,
+            uid,
             catData?.slug,
             catData?.desc,
             catData?.created_at,

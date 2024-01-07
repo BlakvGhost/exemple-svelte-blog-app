@@ -14,9 +14,9 @@ export const load: PageServerLoad = async ({ params }) => {
         desc: category.desc,
         created_at: category.created_at,
     }));
-
+    
     let post = await get(params.uid);
-
+    
     const blog = post ?? new Blog();
 
     post = {
@@ -39,7 +39,7 @@ export const load: PageServerLoad = async ({ params }) => {
             avatar: blog.user.avatar,
         },
     };
-
+    
     return {
         post: post.uid? post: error(404, "Edit Post Not Found"),
         categories: serializedCategories,

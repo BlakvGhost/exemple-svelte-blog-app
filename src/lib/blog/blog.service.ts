@@ -58,16 +58,21 @@ export async function create(blog: Blog, selectedFile: File, category_uid: strin
     }
 }
 
-export async function update(blog: Blog): Promise<Success> {
+export async function update(blog: Blog, selectedFile: File | undefined, category_uid: string): Promise<Success> {
     try {
+        let filePath = blog.cover;
+        if (selectedFile) {
+            const storageRef = ref(firebaseStorage, `${action}/cover/${selectedFile.name}`);
+            filePath = (await uploadBytes(storageRef, selectedFile)).metadata.fullPath;
+            filePath = await getDownloadURL(storageRef);
+        }
         const postRef = doc(firestore, action, blog.uid);
         await updateDoc(postRef, {
-            uid: blog.uid,
             title: blog.title,
             content: blog.content,
             created_at: blog.created_at,
-            cover: blog.cover,
-            category_uid: blog.category.uid,
+            cover: filePath,
+            category_uid: category_uid,
             user_uid: blog.user.uid,
         });
 

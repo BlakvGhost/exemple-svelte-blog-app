@@ -4,35 +4,30 @@
 	import Editor from '@tinymce/tinymce-svelte';
 	import { Blog, Success } from '$lib/blog/blog';
 	import type { PageData } from './$types';
-	import { create } from '$lib/blog/blog.service';
+	import { update } from '$lib/blog/blog.service';
 	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
 	import { authUser } from '$lib/authStore';
 	import { scroll } from '$lib/helpers';
 	import { onMount } from 'svelte';
 
-	let blog = new Blog();
-
 	let postStatus = new Success();
-	let selectedFile: File;
-	let selectedCategory: string;
+	let selectedFile: File | undefined;
 	let process = false;
 	let title: string;
 
 	$: {
 		postStatus;
 		process;
-		blog;
 	}
 
 	const updatePost = async () => {
-		if (blog.title && selectedCategory && selectedFile && blog.content) {
+		const blog = data.post;
+
+		if (blog.title && blog.content) {
 			process = true;
 			blog.user.uid = $authUser?.uid ?? '';
-			postStatus = await create(blog, selectedFile, selectedCategory);
-
-			if (postStatus.status == 200) {
-				blog = new Blog();
-			}
+			postStatus = await update(blog, selectedFile, data.post.category.uid);
+			title = blog.title;
 			scroll();
 			return (process = false);
 		}
@@ -41,7 +36,7 @@
 	};
 
 	const handleFileChange = (event: any) => {
-		selectedFile = event.target.files[0];
+		selectedFile = event.target.files[0] ?? undefined;
 	};
 
 	onMount(() => {
@@ -87,13 +82,15 @@
 				<div class="mb-6">
 					<Label for="cat_id" class="mb-2 block text-gray-300">Category</Label>
 					<select
-						bind:value={selectedCategory}
+						bind:value={data.post.category.uid}
 						name="cat"
 						id="cat_id"
 						class="mt-2 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
 					>
 						{#each data.categories as cat}
-							<option value={cat.uid} title={cat.desc}> {cat.slug} </option>
+							<option value={cat.uid} title={cat.desc}>
+								{cat.slug}
+							</option>
 						{/each}
 					</select>
 				</div>
