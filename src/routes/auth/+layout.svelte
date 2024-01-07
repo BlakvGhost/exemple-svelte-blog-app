@@ -4,19 +4,25 @@
 	import '../../app.pcss';
 	import bgAuthImage from '$lib/images/auth-bg.jpg';
 	import { CompressOutline, InfoCircleSolid } from 'flowbite-svelte-icons';
-	import { Alert } from 'flowbite-svelte';
+	import { Alert, Button, Spinner } from 'flowbite-svelte';
 	import { loginWithGoogle } from '$lib/auth.service';
 
 	let error: string | undefined;
+	let process = false;
 
 	$: isPage = function (page: string = 'login') {
 		return $page.route.id?.includes(page);
 	};
 
-	$: error;
+	$: {
+		error;
+		process;
+	}
 
 	async function lg() {
+		process = true;
 		error = await loginWithGoogle();
+		process = false;
 	}
 </script>
 
@@ -69,23 +75,34 @@
 					</div>
 					<div class="space-y-6 p-4 py-6 sm:px-4 sm:py-0">
 						<div class="grid grid-cols-1 gap-x-3 sm:px-6">
-							<button
-								on:click={lg}
-								class="flex items-center justify-center rounded-lg border py-2.5 duration-150 hover:bg-gray-50 active:bg-gray-100"
-							>
-								<!-- Comment: Google Icon SVG here -->
-								<img
-									src="https://raw.githubusercontent.com/sidiDev/remote-assets/7cd06bf1d8859c578c2efbfda2c68bd6bedc66d8/google-icon.svg"
-									alt="Google"
-									class="h-5 w-5"
-								/>
-								{#if isPage('register')}
-									<span class="mx-2 font-bold">Sign up with Google</span>
-								{/if}
-								{#if isPage()}
-									<span class="mx-2 font-bold">Sign in with Google</span>
-								{/if}
-							</button>
+							{#if process}
+								<Button class="w-full">
+									<img
+										src="https://raw.githubusercontent.com/sidiDev/remote-assets/7cd06bf1d8859c578c2efbfda2c68bd6bedc66d8/google-icon.svg"
+										alt="Google"
+										class="h-5 w-5"
+									/>
+									<Spinner class="mx-3" size="4" color="white" />Login with Google ...
+								</Button>
+							{:else}
+								<button
+									on:click={lg}
+									class="flex items-center justify-center rounded-lg border py-2.5 duration-150 hover:bg-gray-50 active:bg-gray-100"
+								>
+									<!-- Comment: Google Icon SVG here -->
+									<img
+										src="https://raw.githubusercontent.com/sidiDev/remote-assets/7cd06bf1d8859c578c2efbfda2c68bd6bedc66d8/google-icon.svg"
+										alt="Google"
+										class="h-5 w-5"
+									/>
+									{#if isPage('register')}
+										<span class="mx-2 font-bold">Sign up with Google</span>
+									{/if}
+									{#if isPage()}
+										<span class="mx-2 font-bold">Sign in with Google</span>
+									{/if}
+								</button>
+							{/if}
 						</div>
 						<div class="relative">
 							<span class="block h-px w-full bg-gray-300"></span>
