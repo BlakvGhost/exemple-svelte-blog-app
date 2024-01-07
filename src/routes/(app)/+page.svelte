@@ -77,7 +77,7 @@
 		<div class="py-3">
 			<h1 class="border-b py-3 text-2xl">Recents Posts</h1>
 		</div>
-		<div class="my-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+		<div class="my-4 grid grid-cols-1 gap-4 md:grid-cols-4">
 			{#each data.recentPosts as post}
 				<Post {post} type={false}></Post>
 			{/each}
