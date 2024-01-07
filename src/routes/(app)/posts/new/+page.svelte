@@ -15,15 +15,10 @@
 	let selectedCategory: string;
 
 	$: {
-		postStatus,
-		selectedCategory,
-		selectedFile
-	};
-
+		postStatus;
+	}
 
 	const createPost = async () => {
-		console.log(selectedCategory);
-		
 		if (blog.title && selectedCategory && selectedFile && blog.content) {
 			blog.user.uid = $authUser?.uid ?? '';
 			postStatus = await create(blog, selectedFile, selectedCategory);
@@ -37,7 +32,6 @@
 	};
 
 	export let data: PageData;
-	
 </script>
 
 <div class="container mx-auto">
