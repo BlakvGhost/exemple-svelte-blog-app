@@ -14,9 +14,9 @@ export const load: PageServerLoad = async ({ params }) => {
         desc: category.desc,
         created_at: category.created_at,
     }));
-    
+
     let post = await get(params.uid);
-    
+
     const blog = post ?? new Blog();
 
     post = {
@@ -29,7 +29,14 @@ export const load: PageServerLoad = async ({ params }) => {
             slug: blog.category.slug,
             uid: blog.category.uid,
             desc: blog.category.desc,
-            created_at: blog.category.created_at
+            created_at: blog.category.created_at,
+            user: {
+                uid: blog.user.uid,
+                first_name: blog.user.first_name,
+                last_name: blog.user.last_name,
+                email: blog.user.email,
+                avatar: blog.user.avatar,
+            }
         },
         user: {
             uid: blog.user.uid,
@@ -39,9 +46,9 @@ export const load: PageServerLoad = async ({ params }) => {
             avatar: blog.user.avatar,
         },
     };
-    
+
     return {
-        post: post.uid? post: error(404, "Edit Post Not Found"),
+        post: post.uid ? post : error(404, "Edit Post Not Found"),
         categories: serializedCategories,
     };
 };

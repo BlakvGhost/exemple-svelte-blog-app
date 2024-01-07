@@ -1,30 +1,23 @@
-import { getAll as getAllPost } from '$lib/blog/blog.service';
+import { getAll } from '../../../lib/category/category.service';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
-    let posts = await getAllPost();
-    posts = typeof posts === 'string' ? [] : posts;
+    let categories = await getAll();
+    categories = typeof categories === 'string' ? [] : categories;
 
-    const serializedPosts = posts.map(blog => ({
-        uid: blog.uid,
-        title: blog.title,
-        content: blog.content,
-        created_at: blog.created_at,
-        cover: blog.cover,
-        category: {
-            slug: blog.category.slug,
-            uid: blog.category.uid,
-            desc: blog.category.desc,
-            created_at: blog.category.created_at
-        },
+    const serializedCategories = categories.map(category => ({
+        slug: category.slug,
+        uid: category.uid,
+        desc: category.desc,
+        created_at: category.created_at,
         user: {
-            uid: blog.user.uid,
-            first_name: blog.user.first_name,
-            last_name: blog.user.last_name,
-            email: blog.user.email,
-            avatar: blog.user.avatar,
+            uid: category.user?.uid,
+            first_name: category.user?.first_name,
+            last_name: category.user?.last_name,
+            email: category.user?.email,
+            avatar: category.user?.avatar,
         },
     }));
-        
-    return { post: serializedPosts }
+
+    return { categories: serializedCategories }
 };

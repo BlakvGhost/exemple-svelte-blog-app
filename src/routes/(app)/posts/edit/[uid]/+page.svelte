@@ -2,7 +2,7 @@
 	import { Label, Input, Fileupload, Alert, Button, Spinner } from 'flowbite-svelte';
 	import { GridOutline, InfoCircleSolid } from 'flowbite-svelte-icons';
 	import Editor from '@tinymce/tinymce-svelte';
-	import { Blog, Success } from '$lib/blog/blog';
+	import { Success } from '$lib/blog/blog';
 	import type { PageData } from './$types';
 	import { update } from '$lib/blog/blog.service';
 	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
