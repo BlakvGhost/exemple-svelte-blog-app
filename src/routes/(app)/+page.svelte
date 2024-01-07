@@ -49,7 +49,8 @@
 						<h1 class="text-6xl">{reduceText(lastOpened?.title ?? '', 10)}</h1>
 					</div>
 					<div class="my-6">
-						<a href="/posts/{urlify(lastOpened?.title ?? '')}"
+						<a
+							href="/posts/{urlify(lastOpened?.title ?? '')}"
 							class="my-4 border bg-transparent p-3 font-bold
 							transition hover:border-primary-900 hover:bg-primary-900">Continue Reading</a
 						>
