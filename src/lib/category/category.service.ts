@@ -71,7 +71,6 @@ export async function update(category: Category): Promise<Response> {
         await updateDoc(postRef, {
             slug: category.slug,
             desc: category.desc,
-            created_at: category.created_at,
         });
 
         return new Response(200, UPDATE_OBJECT_SUCCESS_MESSAGE);
@@ -101,7 +100,7 @@ export async function getAll(): Promise<Category[] | string> {
         for (const doc of querySnapshot.docs) {
             const postData = doc.data();
 
-            const relatedUser = await getUserDataFromFirestore(postData?.user_uid ?? '');            
+            const relatedUser = await getUserDataFromFirestore(postData?.user_uid ?? '');
 
             const cat = new Category(
                 doc.id,

@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { Label, Input, Fileupload, Alert, Button, Spinner, Textarea } from 'flowbite-svelte';
+	import { Label, Input, Alert, Button, Spinner, Textarea } from 'flowbite-svelte';
 	import { GridOutline, InfoCircleSolid } from 'flowbite-svelte-icons';
-	import Editor from '@tinymce/tinymce-svelte';
-	import { Blog, Success } from '$lib/blog/blog';
-	import type { PageData } from './$types';
+	import { Success } from '$lib/blog/blog';
 	import { create } from '$lib/category/category.service';
 	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
 	import { authUser } from '$lib/authStore';
