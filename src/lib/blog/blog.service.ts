@@ -1,5 +1,5 @@
 import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
-import { ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { Blog, Success } from './blog';
 import { firebaseStorage, firestore } from '$lib/firebase/firebase.app';
 import { get as getCat } from '$lib/category/category.service';
@@ -39,12 +39,14 @@ export async function get(uid: string): Promise<Blog | null> {
 export async function create(blog: Blog, selectedFile: File, category_uid: string): Promise<Success> {
     try {
         const storageRef = ref(firebaseStorage, `${action}/cover/${selectedFile.name}`);
-        const filePath = (await uploadBytes(storageRef, selectedFile)).metadata.fullPath;
+        let filePath = (await uploadBytes(storageRef, selectedFile)).metadata.fullPath;
+        filePath = await getDownloadURL(storageRef);
+        console.log(filePath);
+        
 
         const postsCollection = collection(firestore, action);
         const newDocRef = doc(postsCollection);
         await setDoc(newDocRef, {
-            uid: blog.uid,
             title: blog.title,
             content: blog.content,
             created_at: blog.created_at,

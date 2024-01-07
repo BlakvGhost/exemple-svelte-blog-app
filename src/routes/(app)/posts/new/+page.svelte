@@ -13,18 +13,26 @@
 	let postStatus = new Success();
 	let selectedFile: File;
 	let selectedCategory: string;
+	let process = false;
 
 	$: {
 		postStatus;
+		process;
+		blog;
 	}
 
 	const createPost = async () => {
 		if (blog.title && selectedCategory && selectedFile && blog.content) {
+			process = true;
 			blog.user.uid = $authUser?.uid ?? '';
 			postStatus = await create(blog, selectedFile, selectedCategory);
-		} else {
-			postStatus = new Success(404, EMPTY_FIELDS_MESSAGE);
+
+			if (postStatus.status == 200) {
+				blog = new Blog();
+			}
+			return (process = false);
 		}
+		return (postStatus = new Success(404, EMPTY_FIELDS_MESSAGE));
 	};
 
 	const handleFileChange = (event: any) => {
@@ -95,9 +103,23 @@
 				/>
 			</div>
 			<div class="w-full text-center">
-				<button type="submit" class="my-5 w-2/4 bg-primary-500 p-3 transition hover:bg-primary-800"
-					>Save</button
-				>
+				{#if process}
+					<button
+						type="button"
+						class="my-5 w-2/4 bg-primary-300 p-3 transition hover:bg-primary-800"
+						disabled
+					>
+						<span class="mr-3 h-5 w-5 animate-spin"> </span>
+						Processing...
+					</button>
+				{:else}
+					<button
+						type="submit"
+						class="my-5 w-2/4 bg-primary-500 p-3 transition hover:bg-primary-800"
+					>
+						Create
+					</button>
+				{/if}
 			</div>
 		</form>
 	</div>
