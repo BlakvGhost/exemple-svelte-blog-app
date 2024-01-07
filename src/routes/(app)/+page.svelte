@@ -28,7 +28,7 @@
 {/if}
 <div class="">
 	<div class="h-screen w-full overflow-hidden">
-		<div class="h-full w-full" style="background-image: url('{lastOpened?.cover}');">
+		<div class="h-full w-full" style="background-image: url('{lastOpened?.cover ?? ''}');">
 			<div class="flex h-full w-full items-center justify-between bg-slate-900/60 md:px-10 px-4">
 				<div class="md:mx-4 mx-0 w-full md:w-2/4">
 					<div class="w-fit bg-gray-900 p-2">
@@ -39,7 +39,7 @@
 					</div>
 					<div class="my-10">
 						<a
-							href="/posts/{lastOpened?.uid}/{urlify(lastOpened?.title ?? '')}"
+							href="/posts/{lastOpened?.uid ?? ''}/{urlify(lastOpened?.title ?? '')}"
 							class="my-4 border bg-transparent p-3 font-bold
 							transition hover:border-primary-900 hover:bg-primary-900">Continue Reading</a
 						>
