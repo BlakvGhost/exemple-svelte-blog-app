@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Label, Input, Fileupload, Alert } from 'flowbite-svelte';
+	import { Label, Input, Fileupload, Alert, Button, Spinner } from 'flowbite-svelte';
 	import { GridOutline, InfoCircleSolid } from 'flowbite-svelte-icons';
 	import Editor from '@tinymce/tinymce-svelte';
 	import { Blog, Success } from '$lib/blog/blog';
@@ -22,10 +22,12 @@
 	}
 
 	const createPost = async () => {
-		window.scroll({
-			top: 0,
-			behavior: 'smooth'
-		});
+		const scroll = () => {
+			window.scroll({
+				top: 0,
+				behavior: 'smooth'
+			});
+		};
 		if (blog.title && selectedCategory && selectedFile && blog.content) {
 			process = true;
 			blog.user.uid = $authUser?.uid ?? '';
@@ -34,8 +36,10 @@
 			if (postStatus.status == 200) {
 				blog = new Blog();
 			}
+			scroll();
 			return (process = false);
 		}
+		scroll();
 		return (postStatus = new Success(404, EMPTY_FIELDS_MESSAGE));
 	};
 
@@ -57,12 +61,12 @@
 		</div>
 	</div>
 	{#if postStatus.status == 200}
-		<Alert color="blue" border class="mx-auto my-4 w-full text-center md:w-2/4">
+		<Alert color="blue" border class="mx-auto mt-4 w-full text-center md:w-2/4">
 			<InfoCircleSolid slot="icon" class="h-4 w-4" />
 			<span class="font-medium">{postStatus.message}</span>
 		</Alert>
 	{:else if postStatus.status == 404}
-		<Alert color="red" border class="mx-auto my-4 w-full text-center md:w-2/4">
+		<Alert color="red" border class="mx-auto mt-4 w-full text-center md:w-2/4">
 			<InfoCircleSolid slot="icon" class="h-4 w-4" />
 			<span class="font-medium">{postStatus.message}</span>
 		</Alert>
@@ -71,7 +75,7 @@
 		<form
 			on:submit|preventDefault={createPost}
 			method="post"
-			class="flex flex-wrap items-center py-8"
+			class="flex flex-wrap items-center pb-8 pt-2"
 		>
 			<div class="w-full p-3 md:w-2/4 md:p-0">
 				<div class="mb-6">
@@ -108,14 +112,9 @@
 			</div>
 			<div class="w-full text-center">
 				{#if process}
-					<button
-						type="button"
-						class="my-5 w-2/4 bg-primary-300 p-3 transition hover:bg-primary-800"
-						disabled
-					>
-						<span class="mr-3 h-5 w-5 animate-spin"> </span>
-						Processing...
-					</button>
+					<Button disabled>
+						<Spinner class="me-3" size="4" color="white" />Processing ...
+					</Button>
 				{:else}
 					<button
 						type="submit"

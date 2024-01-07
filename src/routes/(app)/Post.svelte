@@ -3,12 +3,18 @@
 	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import { Blog } from '$lib/blog/blog';
 	import { reduceText, urlify } from '$lib/helpers';
+	import { authUser } from '$lib/authStore';
 
 	export let type: boolean;
 
 	export let custom_class: string = 'w-full bg-primary-700 border-0 text-white';
 
 	export let post: Blog;
+
+	export let blog_page = false;
+
+	const havePermission = blog_page && post.user.uid === $authUser?.uid;
+	
 </script>
 
 {#if type}
@@ -39,6 +45,14 @@
 		<Button class="w-fit bg-gray-500" href="/posts/{post.uid}/{urlify(post.title)}">
 			Read more <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />
 		</Button>
+		{#if havePermission}
+			<Button class="w-fit bg-gray-500" href="/posts/{post.uid}/{urlify(post.title)}">
+				Read more <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />
+			</Button>
+			<Button class="w-fit bg-gray-500" href="/posts/{post.uid}/{urlify(post.title)}">
+				Read more <ArrowRightOutline class="ms-2 h-3.5 w-3.5 text-white" />
+			</Button>
+		{/if}
 	</Card>
 {/if}
 
