@@ -1,7 +1,15 @@
 <script lang="ts">
+	import { lastOpenedPost } from '$lib/blog/blog';
+	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	onMount(() => {
+		if (data.uid) {
+			lastOpenedPost.set(data);
+		}
+	});
 </script>
 
 <div class="container mx-auto px-4 text-gray-100 lg:px-12">
