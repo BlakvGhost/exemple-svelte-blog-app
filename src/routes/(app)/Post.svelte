@@ -60,7 +60,7 @@
 		<h5 class="mb-2 font-bold tracking-tight text-gray-300 dark:text-white">
 			{reduceText(post.title, 20)}
 			<div class="my-2">
-				<a href="/" class="bg-primary-400 px-2 py-1" title={post.category?.desc}>
+				<a href="/category/{post.category.uid}/{urlify(post.category.slug)}" class="bg-primary-400 px-2 py-1" title={post.category?.desc}>
 					{post.category.slug}
 				</a>
 				<Tooltip> {post.category.desc} </Tooltip>

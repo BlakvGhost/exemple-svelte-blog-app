@@ -15,7 +15,14 @@ export const load: PageServerLoad = async () => {
             slug: blog.category.slug,
             uid: blog.category.uid,
             desc: blog.category.desc,
-            created_at: blog.category.created_at
+            created_at: blog.category.created_at,
+            user: {
+                uid: blog.category.user.uid,
+                first_name: blog.category.user.first_name,
+                last_name: blog.category.user.last_name,
+                email: blog.category.user.email,
+                avatar: blog.category.user.avatar,
+            },
         },
         user: {
             uid: blog.user.uid,
@@ -25,6 +32,6 @@ export const load: PageServerLoad = async () => {
             avatar: blog.user.avatar,
         },
     }));
-        
+
     return { post: serializedPosts }
 };

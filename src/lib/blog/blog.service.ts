@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { Blog, Success as Response } from './blog';
 import { firebaseStorage, firestore } from '$lib/firebase/firebase.app';
@@ -33,6 +33,38 @@ export async function get(uid: string): Promise<Blog | null> {
         );
     } catch (error) {
         return null;
+    }
+}
+
+export async function getFilteredPosts(categoryUid: string): Promise<Blog[]> {
+    try {
+        const postsCollection = collection(firestore, action);
+        const q = query(postsCollection, where('category_uid', '==', categoryUid));
+        const querySnapshot = await getDocs(q);
+
+        const blogs: Blog[] = [];
+
+        for (const doc of querySnapshot.docs) {
+            const postData = doc.data();
+
+            const relatedCategory = await getCat(postData?.category_uid);
+            const relatedUser = await getUserDataFromFirestore(postData?.user_uid);
+
+            const blog = new Blog(
+                doc.id,
+                postData.title,
+                postData.content,
+                postData.created_at,
+                relatedCategory,
+                postData.cover,
+                relatedUser
+            );
+
+            blogs.push(blog);
+        }
+        return blogs;
+    } catch (error) {
+        return [];
     }
 }
 

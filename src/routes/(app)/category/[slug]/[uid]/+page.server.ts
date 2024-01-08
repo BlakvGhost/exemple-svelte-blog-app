@@ -1,14 +1,12 @@
-import { get } from '$lib/blog/blog.service';
-import { error } from '@sveltejs/kit';
+import { getFilteredPosts } from '$lib/blog/blog.service';
 import type { PageServerLoad } from './$types';
-import { Blog } from '$lib/blog/blog';
 
 export const load: PageServerLoad = async ({ params }) => {
-	let post = await get(params.slug);
+	const posts = await getFilteredPosts(params.slug);
+	console.log(posts);
+	
 
-	const blog = post ?? new Blog();
-
-	post = {
+	const serializedPosts = posts.map(blog => ({
 		uid: blog.uid,
 		title: blog.title,
 		content: blog.content,
@@ -18,7 +16,14 @@ export const load: PageServerLoad = async ({ params }) => {
 			slug: blog.category.slug,
 			uid: blog.category.uid,
 			desc: blog.category.desc,
-			created_at: blog.category.created_at
+			created_at: blog.category.created_at,
+			user: {
+				uid: blog.category.user.uid,
+				first_name: blog.category.user.first_name,
+				last_name: blog.category.user.last_name,
+				email: blog.category.user.email,
+				avatar: blog.category.user.avatar,
+			},
 		},
 		user: {
 			uid: blog.user.uid,
@@ -27,7 +32,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			email: blog.user.email,
 			avatar: blog.user.avatar,
 		},
-	};
+	}))
 
-	return post ?? error(404, "Post Not Found");
+	return { posts: serializedPosts }
 };
