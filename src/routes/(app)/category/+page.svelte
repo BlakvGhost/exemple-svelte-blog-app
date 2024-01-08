@@ -3,10 +3,14 @@
 	import { CirclePlusSolid } from 'flowbite-svelte-icons';
 	import type { PageData } from './$types';
 	import { Tooltip } from 'flowbite-svelte';
+	import { getAppName } from '$lib/helpers';
 
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<title> Les catégories | { getAppName() }</title>
+</svelte:head>
 <div class="">
 	<div class="md:-p container mx-auto px-3">
 		<div class="my-4 border-b py-3 flex justify-between">

@@ -5,7 +5,7 @@
 	import { create } from '$lib/category/category.service';
 	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
 	import { authUser } from '$lib/authStore';
-	import { scroll } from '$lib/helpers';
+	import { getAppName, scroll } from '$lib/helpers';
 	import { Category } from '$lib/category/category';
 
 	let category = new Category();
@@ -36,6 +36,9 @@
 	};
 </script>
 
+<svelte:head>
+	<title> Ajouter une catégorie | { getAppName() }</title>
+</svelte:head>
 <div class="container mx-auto">
 	<div class="my-3 flex justify-between">
 		<h1 class="w-auto items-center border-b px-1 py-3 text-2xl md:w-2/4">Create a new category</h1>

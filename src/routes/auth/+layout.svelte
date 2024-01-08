@@ -6,6 +6,7 @@
 	import { CompressOutline, InfoCircleSolid } from 'flowbite-svelte-icons';
 	import { Alert, Button, Spinner } from 'flowbite-svelte';
 	import { loginWithGoogle } from '$lib/auth.service';
+	import { getAppName } from '$lib/helpers';
 
 	let error: string | undefined;
 	let process = false;
@@ -32,7 +33,9 @@
 		<span class="font-medium">{error}</span>
 	</Alert>
 {/if}
-
+<svelte:head>
+	<title>{isPage() ? 'Se Connecter ' : 'Creer un compte '} | {getAppName()}</title>
+</svelte:head>
 <div class="min-h-screen bg-cover bg-no-repeat" style="background-image: url('{bgAuthImage}');">
 	<div class="app flex w-full flex-col">
 		<main class="mx-auto my-0 flex w-full flex-1 flex-col p-2 text-white">
@@ -43,9 +46,9 @@
 					<div class="text-center">
 						<div class="flex justify-center text-white">
 							<CompressOutline class="mx-2 self-center" />
-							<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-red-800"
-								>Fiona</span
-							>
+							<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-red-800">
+								{getAppName()}
+							</span>
 						</div>
 						{#if isPage()}
 							<div class="mt- space-y-2">

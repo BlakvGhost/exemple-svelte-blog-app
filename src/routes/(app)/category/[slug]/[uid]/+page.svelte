@@ -2,10 +2,14 @@
 	import Post from './../../../Post.svelte';
 	import type { PageData } from './$types';
 	import { page } from '$app/stores';
+	import { getAppName } from '$lib/helpers';
 
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<title> Les posts de { $page.params.uid } | { getAppName() }</title>
+</svelte:head>
 <div class="">
 	<div class="md:-p container mx-auto px-3">
 		<div class="py-3">

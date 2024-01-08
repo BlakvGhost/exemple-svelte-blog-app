@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Post from './Post.svelte';
 	import { lastOpenedPost } from '$lib/blog/blog';
-	import { reduceText, urlify } from '$lib/helpers';
+	import { getAppName, reduceText, urlify } from '$lib/helpers';
 	import type { PageData } from './$types';
 	import { onMount } from 'svelte';
 	import PageLoader from '../PageLoader.svelte';
@@ -19,6 +19,9 @@
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<title> Page d'acceuil | {getAppName()}</title>
+</svelte:head>
 <PageLoader show={!lastOpened}/>
 <div class="">
 	<div class="h-screen w-full overflow-hidden">

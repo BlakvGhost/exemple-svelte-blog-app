@@ -1,10 +1,14 @@
 <script lang="ts">
 	import Post from './../Post.svelte';
 	import type { PageData } from './$types';
+	import { getAppName } from '$lib/helpers';
 
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<title> Toutes les postes de blog | { getAppName() }</title>
+</svelte:head>
 <div class="">
 	<div class="md:-p container mx-auto px-3">
 		<div class="py-3">

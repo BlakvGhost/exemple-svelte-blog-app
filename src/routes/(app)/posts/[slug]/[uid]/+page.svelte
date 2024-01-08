@@ -2,6 +2,7 @@
 	import { lastOpenedPost } from '$lib/blog/blog';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
+	import { getAppName } from '$lib/helpers';
 
 	export let data: PageData;
 
@@ -12,6 +13,9 @@
 	});
 </script>
 
+<svelte:head>
+	<title> {data?.title} | { getAppName() }</title>
+</svelte:head>
 <div class="container mx-auto px-4 text-gray-100 lg:px-12">
 	<header class="mt-8 md:flex block justify-between">
 		<h1 class="text-3xl my-2 font-bold text-gray-100">{data?.title}</h1>

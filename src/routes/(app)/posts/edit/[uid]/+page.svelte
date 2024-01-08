@@ -7,7 +7,7 @@
 	import { update } from '$lib/blog/blog.service';
 	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
 	import { authUser } from '$lib/authStore';
-	import { scroll } from '$lib/helpers';
+	import { getAppName, scroll } from '$lib/helpers';
 	import { onMount } from 'svelte';
 	import PageLoader from '../../../../PageLoader.svelte';
 
@@ -48,6 +48,9 @@
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<title> Editer {data.post.title} | { getAppName() }</title>
+</svelte:head>
 <PageLoader show={!data.post.uid} />
 <div class="container mx-auto">
 	<div class="my-3 flex justify-between">

@@ -7,7 +7,7 @@
 	import { create } from '$lib/blog/blog.service';
 	import { EMPTY_FIELDS_MESSAGE } from '$lib/message';
 	import { authUser } from '$lib/authStore';
-	import { scroll } from '$lib/helpers';
+	import { getAppName, scroll } from '$lib/helpers';
 
 	let blog = new Blog();
 
@@ -46,6 +46,9 @@
 	export let data: PageData;
 </script>
 
+<svelte:head>
+	<title> Créer un nouveau post de blog | { getAppName() }</title>
+</svelte:head>
 <div class="container mx-auto">
 	<div class="my-3 flex justify-between">
 		<h1 class="w-auto items-center border-b px-1 py-3 text-2xl md:w-2/4">Create a new blog post</h1>

@@ -51,3 +51,7 @@ export const getColorBySlug = (slug: string): string => {
 
     return colors[index];
 }
+
+export const getAppName = (): string => {
+    return "Fiona";
+}
