@@ -23,7 +23,7 @@
 <div class="app flex min-h-screen w-full flex-col">
 	<Header style={custom_class}></Header>
 
-	<main class="mx-auto my-0 flex w-full flex-1 flex-col bg-primary-900 text-white">
+	<main class="mx-auto my-0 pb-6 flex w-full flex-1 flex-col bg-primary-900 text-white">
 		<slot />
 	</main>
 
