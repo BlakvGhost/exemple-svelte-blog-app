@@ -22,12 +22,12 @@ const getUserDataFromFirestore = async (uid: string): Promise<User> => {
 };
 
 const createUserInFirestore = async (user: FirebaseAuthUser, additionalInfo: User) => {
-    const createdUser = new User(
-        additionalInfo.first_name,
-        additionalInfo.last_name,
-        additionalInfo.email,
-        additionalInfo.avatar,
-    );
+    const createdUser = {
+        first_name: additionalInfo.first_name,
+        last_name: additionalInfo.last_name,
+        email: additionalInfo.email,
+        avatar: additionalInfo.avatar,
+    }
 
     const userRef = doc(firestore, 'users', user.uid);
     await setDoc(userRef, createdUser);
