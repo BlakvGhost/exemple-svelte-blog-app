@@ -14,7 +14,8 @@
 		DropdownItem,
 		DropdownHeader,
 		DropdownDivider,
-		Input
+		Input,
+		DarkMode
 	} from 'flowbite-svelte';
 	import { CompressOutline, SearchOutline } from 'flowbite-svelte-icons';
 	import { logout } from '$lib/auth.service';
@@ -33,9 +34,9 @@
 <header class="{style} z-[5000]">
 	<Navbar let:hidden let:toggle color="primary-900">
 		<NavBrand href="/">
-			<CompressOutline class="mx-2" />
+			<CompressOutline class="mx-2 dark:text-gray-100" />
 
-			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-red-800">
+			<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-gray-100">
 				{getAppName()}
 			</span>
 		</NavBrand>
@@ -57,6 +58,7 @@
 			</div>
 			<Avatar class="" id="avatar-menu" src={avatar} />
 			<NavHamburger class1="w-full md:flex md:w-auto md:order-1" on:click={toggle} />
+			<DarkMode class="text-primary-500 dark:text-primary-600 border dark:border-gray-700"/>
 		</div>
 		<Dropdown placement="bottom" triggeredBy="#avatar-menu">
 			<DropdownHeader>

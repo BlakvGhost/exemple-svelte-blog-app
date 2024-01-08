@@ -107,6 +107,7 @@
 					id="content"
 					modelEvents="input change undo redo"
 					bind:value={blog.content}
+					cssClass="dark:bg-gray-900"
 				/>
 			</div>
 			<div class="w-full text-center">

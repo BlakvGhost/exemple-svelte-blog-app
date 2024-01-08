@@ -12,7 +12,7 @@
 
 		window.addEventListener('scroll', (e: Event) => {
 			if (headerHeight < window.scrollY) {
-				return (custom_class = 'fixed top-0 w-full left-0 bg-primary-50 transition fadeInDownBox');
+				return (custom_class = 'fixed top-0 w-full left-0 bg-primary-50 dark:bg-gray-800 transition fadeInDownBox');
 			}
 			custom_class = '';
 		});

@@ -45,8 +45,8 @@
 				>
 					<div class="text-center">
 						<div class="flex justify-center text-white">
-							<CompressOutline class="mx-2 self-center" />
-							<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-red-800">
+							<CompressOutline class="mx-2 self-center dark:text-gray-100" />
+							<span class="self-center whitespace-nowrap text-xl font-semibold dark:text-gray-100">
 								{getAppName()}
 							</span>
 						</div>
