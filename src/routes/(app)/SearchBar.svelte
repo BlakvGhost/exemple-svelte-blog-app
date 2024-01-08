@@ -1,12 +1,19 @@
 <script lang="ts">
+	import { searchWithAlgoria } from '$lib/algoria';
 	import { Button, Input, Modal } from 'flowbite-svelte';
-	import { SearchOutline } from 'flowbite-svelte-icons';
+	import { SearchOutline } from 'flowbite-svelte-icons';    
 
 	let showModal = false;
 	let query = '';
-	let results = [{ title: 'Result 1' }, { title: 'Result 2' }, { title: 'Result 3' }];
+	let results: string | any[];
 
-	const search = () => {};
+	const search = async () => {
+		if (query.length > 3) {
+			results = await searchWithAlgoria(query);
+            console.log(results);
+            
+		}
+	};
 </script>
 
 <Button
@@ -34,7 +41,7 @@
 <Modal class="modal {!showModal ?? 'active'}" bind:open={showModal} autoclose outsideclose>
 	<div class="px-4 pb-6">
 		<div class="my-3">
-			<div class="relative hidden md:block">
+			<div class="relative">
 				<div class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
 					<SearchOutline class="h-4 w-4 dark:text-gray-300" />
 				</div>
@@ -47,33 +54,37 @@
 				/>
 			</div>
 		</div>
-		<h2 class="mb-4 text-2xl font-semibold">Search Results</h2>
+		{#if query.length > 3}
+			<div class="fadeIn">
+				<h2 class="mb-4 text-2xl font-semibold">Search Results</h2>
 
-		{#if results.length > 0}
-			<ul class="pl-4">
-				{#each results as result (result.title)}
-					<li>
-						<a
-							href="/"
-							class="block w-full list-none border-b px-4 py-2
+				{#if results?.length > 0}
+					<ul class="pl-4">
+						{#each results as result (result.title)}
+							<li>
+								<a
+									href="/"
+									class="block w-full list-none border-b px-4 py-2
                              text-sm
                               font-medium hover:bg-gray-100 hover:text-primary-700
                                focus:z-40 focus:text-primary-700 focus:outline-none
                                 focus:ring-2 focus:ring-primary-700 dark:hover:bg-gray-600
                                  dark:hover:text-white dark:focus:text-white dark:focus:ring-gray-500"
-						>
-							{result.title}
-						</a>
-					</li>
-				{/each}
-			</ul>
-		{:else}
-			<p>No results found</p>
+								>
+									{result.title}
+								</a>
+							</li>
+						{/each}
+					</ul>
+				{:else}
+					<p>No results found</p>
+				{/if}
+			</div>
 		{/if}
 	</div>
 	<svelte:fragment slot="footer">
-		<div class="text-end text-sm text-gray-500 w-full">
-            <span>Powered with Algolia</span>
-        </div>
+		<div class="w-full text-end text-sm text-gray-500">
+			<span>Powered with Algolia</span>
+		</div>
 	</svelte:fragment>
 </Modal>
