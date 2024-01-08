@@ -13,7 +13,7 @@
 </svelte:head>
 <div class="">
 	<div class="md:-p container mx-auto px-3">
-		<div class="my-4 border-b py-3 flex justify-between">
+		<div class="my-4 border-b py-3 flex justify-between items-center">
 			<h1 class="text-2xl">All Categories</h1>
 			<a href="/category/new">
 				<CirclePlusSolid></CirclePlusSolid>

@@ -6,6 +6,7 @@
 	import { onMount } from 'svelte';
 	import PageLoader from '../PageLoader.svelte';
 	import Category from './Category.svelte';
+	import { Button } from 'flowbite-svelte';
 
 	$: lastOpened = $lastOpenedPost;
 
@@ -21,17 +22,20 @@
 </script>
 
 <svelte:head>
-	<title> Page d'acceuil | {getAppName()}</title>
+	<title>Page d'acceuil | {getAppName()}</title>
 </svelte:head>
-<PageLoader show={!lastOpened}/>
+<PageLoader show={!lastOpened} />
 <div class="">
 	<div class="h-screen w-full overflow-hidden">
 		<div class="h-full w-full" style="background-image: url('{lastOpened?.cover ?? ''}');">
-			<div class="flex h-full w-full items-center justify-between bg-slate-900/60 md:px-10 px-4">
-				<div class="md:mx-4 mx-0 w-full md:w-2/4">
-					<div class="w-fit bg-gray-900 p-2">
+			<div class="flex h-full w-full items-center justify-between bg-slate-900/60 px-4 md:px-10">
+				<div class="mx-0 w-full md:mx-4 md:w-2/4">
+					<Button
+						href="/category/{lastOpened?.category.uid}/{urlify(lastOpened?.category.slug ?? '')}"
+						class="w-fit bg-gray-900 p-2"
+					>
 						<h1>{lastOpened?.category.slug}</h1>
-					</div>
+					</Button>
 					<div class="my-4">
 						<h1 class="text-6xl">{reduceText(lastOpened?.title ?? '', 20)}</h1>
 					</div>
