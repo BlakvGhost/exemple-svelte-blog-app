@@ -3,7 +3,6 @@
 
 	import { page } from '$app/stores';
 	import {
-		Button,
 		Navbar,
 		NavBrand,
 		NavLi,
@@ -14,14 +13,13 @@
 		DropdownItem,
 		DropdownHeader,
 		DropdownDivider,
-		Input,
 		DarkMode
 	} from 'flowbite-svelte';
-	import { CompressOutline, SearchOutline } from 'flowbite-svelte-icons';
+	import { CompressOutline } from 'flowbite-svelte-icons';
+	import SearchBar from './SearchBar.svelte';
 	import { logout } from '$lib/auth.service';
 	import { authUser } from '$lib/authStore';
 	import { getAppName } from '$lib/helpers';
-
 
 	export let style;
 
@@ -41,24 +39,14 @@
 			</span>
 		</NavBrand>
 		<div class="flex items-center gap-5 md:order-2">
-			<Button
-				color="none"
-				data-collapse-toggle="mobile-menu-3"
-				aria-controls="mobile-menu-3"
-				aria-expanded="false"
-				class="me-1 rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 md:hidden dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-			>
-				<SearchOutline class="h-5 w-5" />
-			</Button>
-			<div class="relative hidden md:block">
-				<div class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
-					<SearchOutline class="h-4 w-4" />
-				</div>
-				<Input id="search-navbar" class="ps-10" placeholder="Search..." />
-			</div>
+			<SearchBar />
 			<Avatar class="" id="avatar-menu" src={avatar} />
-			<NavHamburger class1="w-full md:flex md:w-auto md:order-1" on:click={toggle} />
-			<DarkMode class="text-primary-500 dark:text-primary-600 border dark:border-gray-700"/>
+			<NavHamburger
+				class1="w-full md:flex md:w-auto md:order-1"
+				class="dark:text-gray-100"
+				on:click={toggle}
+			/>
+			<DarkMode class="border text-primary-500 dark:border-gray-700 dark:text-primary-600" />
 		</div>
 		<Dropdown placement="bottom" triggeredBy="#avatar-menu">
 			<DropdownHeader>

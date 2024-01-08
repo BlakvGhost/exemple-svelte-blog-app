@@ -27,7 +27,7 @@
 		<slot />
 	</main>
 
-	<footer class="flex flex-col items-center justify-center p-2 text-center">
+	<footer class="flex flex-col items-center justify-center p-2 text-center dark:text-gray-300">
 		<p>
 			this is <a href="https://kabirou-alassane.com" class="font-bold">BlakvGhost</a> BlogApp to learn
 			SvelteKit
