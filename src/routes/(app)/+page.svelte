@@ -5,6 +5,7 @@
 	import type { PageData } from './$types';
 	import { onMount } from 'svelte';
 	import PageLoader from '../PageLoader.svelte';
+	import Category from './Category.svelte';
 
 	$: lastOpened = $lastOpenedPost;
 
@@ -77,6 +78,21 @@
 		<div class="my-4 grid grid-cols-1 gap-4 md:grid-cols-4">
 			{#each data.recentPosts as post}
 				<Post {post} type={false}></Post>
+			{/each}
+		</div>
+	</div>
+	<div class="md:-p container mx-auto px-3">
+		<div class="py-3">
+			<h1 class="border-b py-3 text-2xl">Trending Categories</h1>
+		</div>
+		<div class="my-4 grid grid-cols-1 gap-4 md:grid-cols-4">
+			{#each data.trendingCategories as category}
+				<Category
+					cat_page={true}
+					{category}
+					type={true}
+					custom_class="bg-primary-600 border-0 text-white "
+				></Category>
 			{/each}
 		</div>
 	</div>

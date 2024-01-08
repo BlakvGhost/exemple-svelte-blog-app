@@ -46,7 +46,6 @@
 
 {#if type}
 	<Card
-		title={category.slug}
 		class={custom_class + getColorBySlug(category.uid)}
 		href="/category/{category.uid}/{urlify(category.slug)}"
 	>
@@ -54,6 +53,7 @@
 			{category.slug}
 		</h5>
 	</Card>
+	<Tooltip>{category.desc}</Tooltip>
 {:else if postStatus.status != 200}
 	<Card class="mb-4 {custom_class + getColorBySlug(category.uid)}">
 		<h5 class="mb-2 font-bold tracking-tight text-gray-300 dark:text-white">
