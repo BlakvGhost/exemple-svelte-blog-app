@@ -7,13 +7,8 @@ const searchClient = algoliasearch(PUBLIC_ALGORIA_APP_ID, PUBLIC_ALGORIA_SEARCH_
 const index = searchClient.initIndex('blog_posts');
 
 const search = async (query: string) => {
-    try {
-        const { hits } = await index.search(query);
-        return hits;
-    } catch (error) {
-        console.error('Une erreur s\'est produite lors de la recherche avec Algolia :', error);
-        throw error;
-    }
+    const { hits } = await index.search(query);
+    return hits;
 };
 
 const addObject = async (blog: Blog, update = false): Promise<Blog> => {

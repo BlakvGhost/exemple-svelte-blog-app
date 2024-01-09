@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { searchWithAlgoria } from '$lib/algoria';
-	import { Button, Input, Modal } from 'flowbite-svelte';
+	import { urlify } from '$lib/helpers';
+	import { Button, Input, Modal, Tooltip } from 'flowbite-svelte';
 	import { SearchOutline } from 'flowbite-svelte-icons';
 
 	let showModal = false;
@@ -8,7 +9,7 @@
 	let results: string | any[];
 
 	const search = async () => {
-		if (query.length > 3) {
+		if (query.length >= 3) {
 			results = await searchWithAlgoria(query);
 		}
 	};
@@ -47,12 +48,12 @@
 					bind:value={query}
 					id="search-modal"
 					class="ps-10 focus:outline-none"
-					placeholder="Enter a query..."
+					placeholder="at least 3 characters..."
 					on:input={search}
 				/>
 			</div>
 		</div>
-		{#if query.length > 3}
+		{#if query.length >= 3}
 			<div class="fadeIn">
 				<h2 class="mb-4 text-2xl font-semibold">Search Results</h2>
 
@@ -61,7 +62,7 @@
 						{#each results as result (result.title)}
 							<li>
 								<a
-									href="/"
+									href="/posts/{result.objectID}/{ urlify(result.title)}"
 									class="block w-full list-none border-b px-4 py-2
                              text-sm
                               font-medium hover:bg-gray-100 hover:text-primary-700
@@ -72,6 +73,7 @@
 									{result.title}
 								</a>
 							</li>
+                            <Tooltip> Posted at {result.created_at} </Tooltip>
 						{/each}
 					</ul>
 				{:else}
