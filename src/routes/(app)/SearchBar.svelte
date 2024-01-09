@@ -61,7 +61,7 @@
 					<ul class="pl-4">
 						{#each results as result (result.title)}
 							<li>
-								<a
+								<a on:click={() => (showModal = false)}
 									href="/posts/{result.objectID}/{ urlify(result.title)}"
 									class="block w-full list-none border-b px-4 py-2
                              text-sm
