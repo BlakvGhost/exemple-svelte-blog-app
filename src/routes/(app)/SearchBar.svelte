@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { searchWithAlgoria } from '$lib/algoria';
 	import { Button, Input, Modal } from 'flowbite-svelte';
-	import { SearchOutline } from 'flowbite-svelte-icons';    
+	import { SearchOutline } from 'flowbite-svelte-icons';
 
 	let showModal = false;
 	let query = '';
@@ -10,8 +10,6 @@
 	const search = async () => {
 		if (query.length > 3) {
 			results = await searchWithAlgoria(query);
-            console.log(results);
-            
 		}
 	};
 </script>
