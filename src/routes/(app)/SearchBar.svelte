@@ -84,7 +84,7 @@
 	</div>
 	<svelte:fragment slot="footer">
 		<div class="w-full text-end text-sm text-gray-500">
-			<span>Powered with Algolia</span>
+			<span>Powered with Algoria</span>
 		</div>
 	</svelte:fragment>
 </Modal>
